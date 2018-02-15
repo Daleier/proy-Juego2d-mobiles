@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import game.Utiles;
 import modelo.Mundo;
@@ -21,12 +24,16 @@ public class Renderer implements InputProcessor{
     private SpriteBatch spritebatch;
     private OrthographicCamera camera;
     private ShapeRenderer shaperender;
+    private TiledMap mapa;
+    private OrthogonalTiledMapRenderer rendererMapa;
 
     public Renderer(Mundo mundo){
         this.mundo = mundo;
         camera = new OrthographicCamera();
         spritebatch = new SpriteBatch();
         shaperender = new ShapeRenderer();
+        mapa = new TmxMapLoader().load("mapas/Spaceship 3.tmx"); //TODO cambiar ruta mapa
+		rendererMapa = new OrthogonalTiledMapRenderer(mapa);
         Gdx.input.setInputProcessor(this);
         Utiles.imprimirLog("Renderer","Constructor","Creado objeto renderer");
     }
@@ -37,6 +44,8 @@ public class Renderer implements InputProcessor{
         spritebatch.begin();
 
         spritebatch.end();
+		rendererMapa.setView(camera);
+		rendererMapa.render();
         if(debugger){
             debug();
         }
@@ -47,9 +56,10 @@ public class Renderer implements InputProcessor{
     }
 
     public void resize(int width, int height) {
-        camera.setToOrtho(false,Mundo.ANCHO_MUNDO,Mundo.ALTO_MUNDO);
+        camera.setToOrtho(false, Mundo.ANCHO_MUNDO, Mundo.ALTO_MUNDO); // TODO cambiar coordenadas camara
         camera.update();
-        spritebatch.setProjectionMatrix(camera.combined);
+		rendererMapa.setView(camera);
+		spritebatch.setProjectionMatrix(camera.combined);
         shaperender.setProjectionMatrix(camera.combined);
     }
 
@@ -57,7 +67,17 @@ public class Renderer implements InputProcessor{
         Gdx.input.setInputProcessor(null);
         spritebatch.dispose();
         shaperender.dispose();
+        rendererMapa.dispose();
+        mapa.dispose();
     }
+
+    public TiledMap getMapa() {
+    	return mapa;
+	}
+
+	public OrthographicCamera getCamera() {
+    	return camera;
+	}
 
     @Override
     public boolean keyDown(int keycode) {

@@ -1,5 +1,6 @@
 package pantallas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
@@ -9,7 +10,9 @@ import com.badlogic.gdx.Screen;
 
 public class PantallaInicio implements Screen, InputProcessor {
 
-    public PantallaInicio(){}
+    public PantallaInicio(){
+        Gdx.input.setInputProcessor(this);
+    }
 
     @Override
     public void show() {

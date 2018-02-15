@@ -5,6 +5,6 @@ package modelo;
  */
 
 public class Mundo {
-    public static final int ANCHO_MUNDO = 100;
-    public static final int ALTO_MUNDO = 100;
+    public static final int ANCHO_MUNDO = 480;
+    public static final int ALTO_MUNDO = 800;
 }

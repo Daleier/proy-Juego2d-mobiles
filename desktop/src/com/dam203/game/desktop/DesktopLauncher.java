@@ -8,5 +8,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new Juego(), config);
+		config.title = "Juego 29BPDJ";
+		config.width = 450;
+		config.height = 750;
+		config.resizable=false;
 	}
 }

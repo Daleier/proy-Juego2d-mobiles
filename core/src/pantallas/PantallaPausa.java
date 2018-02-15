@@ -1,5 +1,6 @@
 package pantallas;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
@@ -9,11 +10,13 @@ import com.badlogic.gdx.Screen;
 
 public class PantallaPausa implements Screen, InputProcessor {
 
-    public PantallaPausa(){}
+    public PantallaPausa(){
+        Gdx.input.setInputProcessor(this);
+    }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -28,22 +31,22 @@ public class PantallaPausa implements Screen, InputProcessor {
 
     @Override
     public void pause() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void resume() {
-
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void dispose() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
