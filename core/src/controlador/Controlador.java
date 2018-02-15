@@ -16,6 +16,7 @@ public class Controlador {
     }
 
     public void update(float delta){
+        mundo.updateCronometro(delta);
 
     }
 }
