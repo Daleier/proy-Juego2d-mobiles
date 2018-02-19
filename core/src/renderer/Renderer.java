@@ -32,7 +32,7 @@ public class Renderer implements InputProcessor{
         camera = new OrthographicCamera();
         spritebatch = new SpriteBatch();
         shaperender = new ShapeRenderer();
-        mapa = new TmxMapLoader().load("mapas/map1.tmx"); //TODO cambiar ruta mapa
+        mapa = new TmxMapLoader().load("mapas/mapa1.tmx"); //TODO cambiar ruta mapa
 		rendererMapa = new OrthogonalTiledMapRenderer(mapa);
         Gdx.input.setInputProcessor(this);
         Utiles.imprimirLog("Renderer","Constructor","Creado objeto renderer");
