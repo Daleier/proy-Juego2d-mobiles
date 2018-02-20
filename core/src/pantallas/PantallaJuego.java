@@ -32,20 +32,40 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
+		switch(keycode){
+			case Input.Keys.UP:
+				controlador.pulsarTecla(Controlador.Keys.ARRIBA);
+				break;
+			case Input.Keys.DOWN:
+				controlador.pulsarTecla(Controlador.Keys.ABAJO);
+				break;
+			case Input.Keys.LEFT:
+				controlador.pulsarTecla(Controlador.Keys.IZQUIERDA);
+				break;
+			case Input.Keys.RIGHT:
+				controlador.pulsarTecla(Controlador.Keys.DERECHA);
+				break;
+		}
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        Utiles.imprimirLog("PantallaJuego","keyUp","Moviendo camara");
-        if(keycode == Input.Keys.LEFT)
-            renderer.getCamera().translate(-32,0);
-        if(keycode == Input.Keys.RIGHT)
-            renderer.getCamera().translate(32,0);
-        if(keycode == Input.Keys.UP)
-            renderer.getCamera().translate(0,32);
-        if(keycode == Input.Keys.DOWN)
-            renderer.getCamera().translate(0,-32);
+        Utiles.imprimirLog("PantallaJuego","keyUp","Moviendo");
+		switch (keycode) {
+			case Input.Keys.UP:
+				controlador.liberarTecla(Controlador.Keys.ARRIBA);
+				break;
+			case Input.Keys.DOWN:
+				controlador.liberarTecla(Controlador.Keys.ABAJO);
+				break;
+			case Input.Keys.LEFT:
+				controlador.liberarTecla(Controlador.Keys.IZQUIERDA);
+				break;
+			case Input.Keys.RIGHT:
+				controlador.liberarTecla(Controlador.Keys.DERECHA);
+				break;
+		}
         if(keycode == Input.Keys.NUM_1)
             renderer.getMapa().getLayers().get(0).setVisible(!renderer.getMapa().getLayers().get(0).isVisible());
         if(keycode == Input.Keys.NUM_2)
