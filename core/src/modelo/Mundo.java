@@ -14,13 +14,21 @@ public class Mundo {
     private final int TEMPO_INICIAL_CRONOMETRO = 0;
     private float cronometro;
     private World world;
+	private static PersonajeJugable pj;
 
     public Mundo() {
         cronometro = TEMPO_INICIAL_CRONOMETRO;
+        this.pj = new PersonajeJugable(new Vector2(68,68),new Vector2(32,32),10f);
+
+        // TODO box2d implementation
         world = new World(new Vector2(0, -98f), true);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
     }
+
+    public PersonajeJugable getPj(){
+    	return pj;
+	}
 
     public int getCronometro() {
         return (int)cronometro;

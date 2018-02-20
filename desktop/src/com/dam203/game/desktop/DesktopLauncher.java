@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new Juego(), config);
 		config.title = "Juego 29BPDJ";
-		config.width = 450;
-		config.height = 750;
+		config.width = 960;
+		config.height = 480;
 		config.resizable=false;
 	}
 }

@@ -11,12 +11,13 @@ public class Juego extends Game {
 	public void create () {
 		Utiles.imprimirLog("Juego","Constructor","Creado objeto juego");
 		setScreen(new PantallaJuego(this));
+		AssetsJuego.cargarTexturas();
 	}
 
 
 	@Override
 	public void dispose () {
+		AssetsJuego.liberarTexturas();
 		super.dispose();
-
 	}
 }

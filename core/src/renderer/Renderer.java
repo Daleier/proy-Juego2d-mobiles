@@ -1,6 +1,7 @@
 package renderer;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,9 +10,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 
+import game.AssetsJuego;
 import game.Utiles;
 import modelo.Mundo;
+import modelo.PersonajeJugable;
 
 /**
  * Created by dalei on 14/02/2018.
@@ -28,27 +32,38 @@ public class Renderer implements InputProcessor{
     private OrthogonalTiledMapRenderer rendererMapa;
 
     public Renderer(Mundo mundo){
+        Utiles.imprimirLog("Renderer","Constructor","Creado objeto renderer");
         this.mundo = mundo;
         camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()); // TODO cambiar coordenadas camara
+        camera.update();
         spritebatch = new SpriteBatch();
         shaperender = new ShapeRenderer();
         mapa = new TmxMapLoader().load("mapas/mapa1.tmx"); //TODO cambiar ruta mapa
 		rendererMapa = new OrthogonalTiledMapRenderer(mapa);
         Gdx.input.setInputProcessor(this);
-        Utiles.imprimirLog("Renderer","Constructor","Creado objeto renderer");
     }
 
     public void render(float delta){
-        Gdx.gl.glClearColor(0f, 0.5f, 0.7f, 1);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        spritebatch.begin();
-
-        spritebatch.end();
+        camera.position.set(new Vector2(mundo.getPj().getPosicion().x, mundo.getPj().getPosicion().y),0);
+        camera.update();
 		rendererMapa.setView(camera);
 		rendererMapa.render();
+		spritebatch.setProjectionMatrix(camera.combined);
+		spritebatch.begin();
+		dibujarPj();
+		spritebatch.end();
+
         if(debugger){
             debug();
         }
+    }
+
+    public void dibujarPj() {
+        PersonajeJugable pj = mundo.getPj();
+		spritebatch.draw(AssetsJuego.texturePJ, pj.getPosicion().x, pj.getPosicion().y, pj.getTamano().x, pj.getTamano().y );
     }
 
     public void debug() {
@@ -56,7 +71,7 @@ public class Renderer implements InputProcessor{
     }
 
     public void resize(int width, int height) {
-        camera.setToOrtho(false, Mundo.ANCHO_MUNDO, Mundo.ALTO_MUNDO); // TODO cambiar coordenadas camara
+        camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()); // TODO cambiar coordenadas camara
         camera.update();
 		rendererMapa.setView(camera);
 		spritebatch.setProjectionMatrix(camera.combined);

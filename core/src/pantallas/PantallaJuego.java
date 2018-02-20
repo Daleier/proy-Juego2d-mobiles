@@ -2,6 +2,7 @@ package pantallas;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
@@ -22,12 +23,11 @@ public class PantallaJuego implements Screen, InputProcessor{
     private Controlador controlador;
 
     public PantallaJuego(Game game){
-        this.game = game;
+		Utiles.imprimirLog("PantallaJuego","Constructor","Creado objeto PantallaJuego");
+		this.game = game;
         mundo = new Mundo();
         this.renderer = new Renderer(mundo);
         this.controlador = new Controlador(mundo);
-        Utiles.imprimirLog("PantallaJuego","Constructor","Creado objeto PantallaJuego");
-
     }
 
     @Override
@@ -37,6 +37,19 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public boolean keyUp(int keycode) {
+        Utiles.imprimirLog("PantallaJuego","keyUp","Moviendo camara");
+        if(keycode == Input.Keys.LEFT)
+            renderer.getCamera().translate(-32,0);
+        if(keycode == Input.Keys.RIGHT)
+            renderer.getCamera().translate(32,0);
+        if(keycode == Input.Keys.UP)
+            renderer.getCamera().translate(0,32);
+        if(keycode == Input.Keys.DOWN)
+            renderer.getCamera().translate(0,-32);
+        if(keycode == Input.Keys.NUM_1)
+            renderer.getMapa().getLayers().get(0).setVisible(!renderer.getMapa().getLayers().get(0).isVisible());
+        if(keycode == Input.Keys.NUM_2)
+            renderer.getMapa().getLayers().get(1).setVisible(!renderer.getMapa().getLayers().get(1).isVisible());
         return false;
     }
 
