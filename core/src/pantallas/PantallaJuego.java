@@ -136,6 +136,7 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public void dispose() {
+        mundo.getWorld().dispose();
         Gdx.input.setInputProcessor(null);
     }
 }

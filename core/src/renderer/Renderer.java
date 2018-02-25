@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 import game.AssetsJuego;
 import game.Utiles;
@@ -34,6 +35,8 @@ public class Renderer implements InputProcessor{
     private int levelPixelHeigth;
     private int width;
     private int heigth;
+    private Box2DDebugRenderer box2ddbr;
+    private OrthographicCamera box2dcam;
 
     public Renderer(Mundo mundo){
         Utiles.imprimirLog("Renderer","Constructor","Creado objeto renderer");
@@ -45,6 +48,11 @@ public class Renderer implements InputProcessor{
         camera.update();
         spritebatch = new SpriteBatch();
         shaperender = new ShapeRenderer();
+
+        //box2d camera
+        box2ddbr = new Box2DDebugRenderer();
+        box2dcam = new OrthographicCamera();
+        box2dcam.setToOrtho(false,width/Mundo.PIXELS_METER, heigth/Mundo.PIXELS_METER);
 
         //tiled map
         mapa = new TmxMapLoader().load("mapas/mapa1.tmx"); //TODO cambiar ruta mapa
@@ -67,7 +75,7 @@ public class Renderer implements InputProcessor{
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,GL20.GL_ONE_MINUS_SRC_ALPHA);
         camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionX(), width/2),levelPixelWidth-(width/2));
         camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionY(), heigth/2),levelPixelHeigth-(heigth/2));
-
+        box2ddbr.render(mundo.getWorld(),box2dcam.combined);
         camera.update();
 		rendererMapa.setView(camera);
 		rendererMapa.render();
@@ -91,7 +99,8 @@ public class Renderer implements InputProcessor{
     }
 
     public void resize(int width, int height) {
-        camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()); // TODO cambiar coordenadas camara
+        camera.setToOrtho(false, width,height);
+        box2dcam.setToOrtho(false,width/Mundo.PIXELS_METER, heigth/Mundo.PIXELS_METER);
         camera.update();
 		rendererMapa.setView(camera);
 		spritebatch.setProjectionMatrix(camera.combined);

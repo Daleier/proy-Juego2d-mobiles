@@ -1,14 +1,15 @@
 package modelo;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class PersonajeJugable extends Personaje {
 
 	private Vector2 velocidade;
 
 
-	public PersonajeJugable(Vector2 posicion, Vector2 tamano, float velocidade_max) {
-		super(posicion, tamano, velocidade_max);
+	public PersonajeJugable(Vector2 posicion, Vector2 tamano, float velocidade_max,World world) {
+		super(posicion, tamano, velocidade_max, world);
 		velocidade = new Vector2(0, 0);
 		getRectangulo().setSize(tamano.x / 2);
 	}

@@ -2,10 +2,18 @@ package modelo;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Personaje {
 
         private Rectangle rectangulo;
+        private World world;
+        private Body body;
 
         public Personaje(){
 			rectangulo = new Rectangle();
@@ -17,11 +25,24 @@ public abstract class Personaje {
          * @param tamano
          * @param velocidade_max
          */
-        public Personaje(Vector2 posicion, Vector2 tamano, float velocidade_max) {
-                this.posicion = posicion;
-                this.tamano = tamano;
-                this.velocidade_max = velocidade_max;
-                rectangulo = new Rectangle(posicion.x,posicion.y,tamano.x,tamano.y);
+        public Personaje(Vector2 posicion, Vector2 tamano, float velocidade_max, World world) {
+            this.posicion = posicion;
+            this.tamano = tamano;
+            this.velocidade_max = velocidade_max;
+            rectangulo = new Rectangle(posicion.x,posicion.y,tamano.x,tamano.y);
+            //box2d
+            this.world = world;
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyDef.BodyType.DynamicBody;
+            bodyDef.position.set(posicion.x/Mundo.PIXELS_METER, posicion.y/ Mundo.PIXELS_METER);
+            this.body = world.createBody(bodyDef);
+            PolygonShape polygonShape = new PolygonShape();
+            polygonShape.setAsBox((tamano.x/2)/Mundo.PIXELS_METER,(tamano.y/2)/Mundo.PIXELS_METER);
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = polygonShape;
+            fixtureDef.density = 1f;
+            Fixture fixture = body.createFixture(fixtureDef);
+            polygonShape.dispose();
         }
 
         public void setTamanoRectangulo(float width,float height){
@@ -96,6 +117,7 @@ public abstract class Personaje {
         public void setPosicion(float x, float y) {
                 posicion.x = x;
                 posicion.y = y;
+
                 actualizarRectangulo();
         }
  

@@ -1,5 +1,7 @@
 package controlador;
 
+import com.badlogic.gdx.physics.box2d.World;
+
 import java.util.HashMap;
 
 import game.Utiles;
@@ -14,6 +16,7 @@ import modelo.PersonajeJugable;
 public class Controlador {
     private Mundo mundo;
 	private PersonajeJugable pj;
+	private World world;
 
 	public enum Keys {
 		IZQUIERDA, DERECHA,ARRIBA, ABAJO
@@ -30,14 +33,16 @@ public class Controlador {
         Utiles.imprimirLog("Controlador","Constructor","Creado objeto controlador");
         this.mundo=mundo;
         this.pj = mundo.getPj();
+		world = this.mundo.getWorld();
     }
 
     public void controlarPJ(float delta) {
-
+		//TODO implement
 	}
 
     public void update(float delta){
         mundo.updateCronometro(delta);
+        world.step(delta,6,2);
         controlarPJ(delta);
         procesarEntradas();
     }

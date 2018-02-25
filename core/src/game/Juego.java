@@ -2,6 +2,7 @@ package game;
 
 import com.badlogic.gdx.Game;
 
+import modelo.Mundo;
 import pantallas.PantallaJuego;
 
 
