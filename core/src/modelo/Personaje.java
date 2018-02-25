@@ -70,7 +70,14 @@ public abstract class Personaje {
         public Vector2 getPosicion() {
                 return posicion;
         }
- 
+
+        public int getPosicionX() {
+                return Math.round(this.posicion.x);
+        }
+
+        public int getPosicionY() {
+                return Math.round(this.posicion.y);
+        }
         /**
          * Modifica a posición
          * @param posicion: a nova posicion

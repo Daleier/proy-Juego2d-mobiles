@@ -1,12 +1,12 @@
 package renderer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -30,24 +30,44 @@ public class Renderer implements InputProcessor{
     private ShapeRenderer shaperender;
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer rendererMapa;
+    private int levelPixelWidth;
+    private int levelPixelHeigth;
+    private int width;
+    private int heigth;
 
     public Renderer(Mundo mundo){
         Utiles.imprimirLog("Renderer","Constructor","Creado objeto renderer");
         this.mundo = mundo;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight()); // TODO cambiar coordenadas camara
+        width = Gdx.graphics.getWidth();
+        heigth = Gdx.graphics.getHeight();
+        camera.setToOrtho(false, width,heigth); // TODO cambiar coordenadas camara
         camera.update();
         spritebatch = new SpriteBatch();
         shaperender = new ShapeRenderer();
+
+        //tiled map
         mapa = new TmxMapLoader().load("mapas/mapa1.tmx"); //TODO cambiar ruta mapa
 		rendererMapa = new OrthogonalTiledMapRenderer(mapa);
+        MapProperties properties = mapa.getProperties();
+        int levelWidth = properties.get("width",Integer.class);
+        int levelHeigth = properties.get("heigth", Integer.class);
+        int tilePixelWidth = properties.get("tileWidth", Integer.class);
+        int tilePixelHeight = properties.get("tileHeigth",Integer.class);
+        levelPixelWidth = tilePixelWidth * levelWidth;
+        levelPixelHeigth= tilePixelHeight * levelHeigth;
+
         Gdx.input.setInputProcessor(this);
     }
+
 
     public void render(float delta){
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.position.set(new Vector2(mundo.getPj().getPosicion().x, mundo.getPj().getPosicion().y),0);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,GL20.GL_ONE_MINUS_SRC_ALPHA);
+        camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionX(), width/2),levelPixelWidth-(width/2));
+        camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionY(), heigth/2),levelPixelHeigth-(heigth/2));
+
         camera.update();
 		rendererMapa.setView(camera);
 		rendererMapa.render();
