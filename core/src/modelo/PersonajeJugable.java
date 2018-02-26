@@ -14,7 +14,7 @@ public class PersonajeJugable extends Personaje {
 		getRectangulo().setSize(tamano.x / 2);
 	}
 
-	public void inicializarAlien() {
+	public void inicializarPJ() {
 		setPosicion(100, 20);
 		setVelocidadeX(0);
 		setVelocidadeY(0);

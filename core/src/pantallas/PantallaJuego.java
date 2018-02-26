@@ -51,7 +51,6 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public boolean keyUp(int keycode) {
-        Utiles.imprimirLog("PantallaJuego","keyUp","Moviendo");
 		switch (keycode) {
 			case Input.Keys.UP:
 				controlador.liberarTecla(Controlador.Keys.ARRIBA);

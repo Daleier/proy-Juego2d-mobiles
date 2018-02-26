@@ -19,11 +19,11 @@ public class Mundo {
 
     public Mundo() {
         // TODO box2d implementation
-        world = new World(new Vector2(0, -98f), true);
+        world = new World(new Vector2(0, -9.8f), true);
 
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
-        this.pj = new PersonajeJugable(new Vector2(68,68),new Vector2(32,32),10f, world);
+        this.pj = new PersonajeJugable(new Vector2(1024,400),new Vector2(32,32),300f, world);
 
 
     }
