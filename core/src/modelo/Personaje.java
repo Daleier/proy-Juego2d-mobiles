@@ -9,11 +9,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import game.B2DVars;
+
 public abstract class Personaje {
 
         private Rectangle rectangulo;
-        private World world;
-        private Body body;
 
         public Personaje(){
 			rectangulo = new Rectangle();
@@ -30,18 +30,31 @@ public abstract class Personaje {
             this.tamano = tamano;
             this.velocidade_max = velocidade_max;
             rectangulo = new Rectangle(posicion.x,posicion.y,tamano.x,tamano.y);
+
             //box2d
-            this.world = world;
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(posicion.x/Mundo.PIXELS_METER, posicion.y/ Mundo.PIXELS_METER);
-            this.body = world.createBody(bodyDef);
+            bodyDef.position.set(posicion.x/ B2DVars.PIXELS_METER, posicion.y/ B2DVars.PIXELS_METER);
+            Body body = world.createBody(bodyDef);
+
             PolygonShape polygonShape = new PolygonShape();
-            polygonShape.setAsBox((tamano.x/2)/Mundo.PIXELS_METER,(tamano.y/2)/Mundo.PIXELS_METER);
+            polygonShape.setAsBox((tamano.x/2)/ B2DVars.PIXELS_METER,(tamano.y/2)/ B2DVars.PIXELS_METER);
+
             FixtureDef fixtureDef = new FixtureDef();
             fixtureDef.shape = polygonShape;
             fixtureDef.density = 1f;
-            Fixture fixture = body.createFixture(fixtureDef);
+            // colisiones box2d
+            fixtureDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
+            fixtureDef.filter.categoryBits = B2DVars.BIT_SUELO;
+            body.createFixture(fixtureDef).setUserData("player");
+            //foot sensor
+            polygonShape.setAsBox(2/B2DVars.PIXELS_METER,2/B2DVars.PIXELS_METER, new Vector2(0,-5/B2DVars.PIXELS_METER),0);
+            fixtureDef.shape = polygonShape;
+            fixtureDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
+            fixtureDef.filter.categoryBits = B2DVars.BIT_SUELO;
+            fixtureDef.isSensor= true;
+            body.createFixture(fixtureDef).setUserData("foot");
+
             polygonShape.dispose();
         }
 

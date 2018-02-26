@@ -6,6 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
+import javax.rmi.CORBA.Util;
+
 import controlador.Controlador;
 import game.Utiles;
 import modelo.Mundo;
@@ -74,6 +76,8 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public boolean keyTyped(char character) {
+        if(character == ' ')
+            System.out.println("JUMP"); // TODO implement
         return false;
     }
 

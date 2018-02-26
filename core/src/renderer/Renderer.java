@@ -10,10 +10,10 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 import game.AssetsJuego;
+import game.B2DVars;
 import game.Utiles;
 import modelo.Mundo;
 import modelo.PersonajeJugable;
@@ -52,10 +52,10 @@ public class Renderer implements InputProcessor{
         //box2d camera
         box2ddbr = new Box2DDebugRenderer();
         box2dcam = new OrthographicCamera();
-        box2dcam.setToOrtho(false,width/Mundo.PIXELS_METER, heigth/Mundo.PIXELS_METER);
+        box2dcam.setToOrtho(false,width/ B2DVars.PIXELS_METER, heigth/ B2DVars.PIXELS_METER);
 
         //tiled map
-        mapa = new TmxMapLoader().load("mapas/mapa1.tmx"); //TODO cambiar ruta mapa
+        mapa = new TmxMapLoader().load("mapas/test/test.tmx"); //TODO cambiar ruta mapa
 		rendererMapa = new OrthogonalTiledMapRenderer(mapa);
         MapProperties properties = mapa.getProperties();
         int levelWidth = properties.get("width",Integer.class);
@@ -100,9 +100,9 @@ public class Renderer implements InputProcessor{
 
     public void resize(int width, int height) {
         camera.setToOrtho(false, width,height);
-        box2dcam.setToOrtho(false,width/Mundo.PIXELS_METER, heigth/Mundo.PIXELS_METER);
+        box2dcam.setToOrtho(false,width/ B2DVars.PIXELS_METER, heigth/ B2DVars.PIXELS_METER);
         camera.update();
-		rendererMapa.setView(camera);
+//		rendererMapa.setView(camera);
 		spritebatch.setProjectionMatrix(camera.combined);
         shaperender.setProjectionMatrix(camera.combined);
     }

@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Mundo {
     public static final int ANCHO_MUNDO = 480;
     public static final int ALTO_MUNDO = 800;
-    public static final int PIXELS_METER = 100;
     private final int TEMPO_INICIAL_CRONOMETRO = 0;
     private float cronometro;
     private World world;
@@ -23,7 +22,7 @@ public class Mundo {
 
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
-        this.pj = new PersonajeJugable(new Vector2(1024,400),new Vector2(32,32),300f, world);
+        this.pj = new PersonajeJugable(new Vector2(70,96),new Vector2(32,32),300f, world);
 
 
     }
