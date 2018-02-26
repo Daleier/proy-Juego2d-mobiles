@@ -59,11 +59,11 @@ public class Renderer implements InputProcessor{
 		rendererMapa = new OrthogonalTiledMapRenderer(mapa);
         MapProperties properties = mapa.getProperties();
         int levelWidth = properties.get("width",Integer.class);
-        int levelHeigth = properties.get("heigth", Integer.class);
-        int tilePixelWidth = properties.get("tileWidth", Integer.class);
-        int tilePixelHeight = properties.get("tileHeigth",Integer.class);
+        int levelHeight = properties.get("height", Integer.class);
+        int tilePixelWidth = properties.get("tilewidth", Integer.class);
+        int tilePixelHeight = properties.get("tileheight",Integer.class);
         levelPixelWidth = tilePixelWidth * levelWidth;
-        levelPixelHeigth= tilePixelHeight * levelHeigth;
+        levelPixelHeigth= tilePixelHeight * levelHeight;
 
         Gdx.input.setInputProcessor(this);
     }
@@ -74,7 +74,7 @@ public class Renderer implements InputProcessor{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,GL20.GL_ONE_MINUS_SRC_ALPHA);
         camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionX(), width/2),levelPixelWidth-(width/2));
-        camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionY(), heigth/2),levelPixelHeigth-(heigth/2));
+        camera.position.y = Math.min(Math.max(mundo.getPj().getPosicionY(), heigth/2),levelPixelHeigth-(heigth/2));
         box2ddbr.render(mundo.getWorld(),box2dcam.combined);
         camera.update();
 		rendererMapa.setView(camera);
