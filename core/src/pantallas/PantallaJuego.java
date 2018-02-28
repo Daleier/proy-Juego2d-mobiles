@@ -9,6 +9,7 @@ import com.badlogic.gdx.Screen;
 import javax.rmi.CORBA.Util;
 
 import controlador.Controlador;
+import controlador.ControladorContact;
 import game.Utiles;
 import modelo.Mundo;
 import renderer.Renderer;
@@ -76,8 +77,8 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public boolean keyTyped(char character) {
-        if(character == ' ')
-            System.out.println("JUMP"); // TODO implement
+        if(character == ' ' && mundo.getContactListener().isPersonajeOnGround())
+            mundo.getPj().jump();
         return false;
     }
 

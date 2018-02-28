@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import game.AssetsJuego;
 import game.B2DVars;
@@ -44,8 +45,8 @@ public class Renderer implements InputProcessor{
         camera = new OrthographicCamera();
         width = Gdx.graphics.getWidth();
         heigth = Gdx.graphics.getHeight();
-        camera.setToOrtho(false, width,heigth); // TODO cambiar coordenadas camara
-        camera.update();
+//        camera.setToOrtho(false, width,heigth);
+//        camera.update();
         spritebatch = new SpriteBatch();
         shaperender = new ShapeRenderer();
 
@@ -73,16 +74,9 @@ public class Renderer implements InputProcessor{
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,GL20.GL_ONE_MINUS_SRC_ALPHA);
-        camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionX(), width/2),levelPixelWidth-(width/2));
-        camera.position.y = Math.min(Math.max(mundo.getPj().getPosicionY(), heigth/2),levelPixelHeigth-(heigth/2));
+//        camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionX(), width/2),levelPixelWidth-(width/2));
+//        camera.position.y = Math.min(Math.max(mundo.getPj().getPosicionY(), heigth/2),levelPixelHeigth-(heigth/2));
         box2ddbr.render(mundo.getWorld(),box2dcam.combined);
-        camera.update();
-		rendererMapa.setView(camera);
-		rendererMapa.render();
-		spritebatch.setProjectionMatrix(camera.combined);
-		spritebatch.begin();
-		dibujarPj();
-		spritebatch.end();
 
         if(debugger){
             debug();
@@ -99,10 +93,7 @@ public class Renderer implements InputProcessor{
     }
 
     public void resize(int width, int height) {
-        camera.setToOrtho(false, width,height);
         box2dcam.setToOrtho(false,width/ B2DVars.PIXELS_METER, heigth/ B2DVars.PIXELS_METER);
-        camera.update();
-//		rendererMapa.setView(camera);
 		spritebatch.setProjectionMatrix(camera.combined);
         shaperender.setProjectionMatrix(camera.combined);
     }

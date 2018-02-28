@@ -4,16 +4,24 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import game.B2DVars;
+import game.Utiles;
 
 public abstract class Personaje {
 
         private Rectangle rectangulo;
+        public float velocidade_max;
+        protected float velocidade = 0;
+        protected Vector2 posicion;
+        protected Vector2 tamano;
 
         public Personaje(){
 			rectangulo = new Rectangle();
@@ -25,38 +33,14 @@ public abstract class Personaje {
          * @param tamano
          * @param velocidade_max
          */
-        public Personaje(Vector2 posicion, Vector2 tamano, float velocidade_max, World world) {
+        public Personaje(Vector2 posicion, Vector2 tamano, float velocidade_max) {
+            Utiles.imprimirLog("Personaje","Constructor","Creado objeto constructor");
             this.posicion = posicion;
             this.tamano = tamano;
             this.velocidade_max = velocidade_max;
             rectangulo = new Rectangle(posicion.x,posicion.y,tamano.x,tamano.y);
-
-            //box2d
-            BodyDef bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(posicion.x/ B2DVars.PIXELS_METER, posicion.y/ B2DVars.PIXELS_METER);
-            Body body = world.createBody(bodyDef);
-
-            PolygonShape polygonShape = new PolygonShape();
-            polygonShape.setAsBox((tamano.x/2)/ B2DVars.PIXELS_METER,(tamano.y/2)/ B2DVars.PIXELS_METER);
-
-            FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.shape = polygonShape;
-            fixtureDef.density = 1f;
-            // colisiones box2d
-            fixtureDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
-            fixtureDef.filter.categoryBits = B2DVars.BIT_SUELO;
-            body.createFixture(fixtureDef).setUserData("player");
-            //foot sensor
-            polygonShape.setAsBox(2/B2DVars.PIXELS_METER,2/B2DVars.PIXELS_METER, new Vector2(0,-5/B2DVars.PIXELS_METER),0);
-            fixtureDef.shape = polygonShape;
-            fixtureDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
-            fixtureDef.filter.categoryBits = B2DVars.BIT_SUELO;
-            fixtureDef.isSensor= true;
-            body.createFixture(fixtureDef).setUserData("foot");
-
-            polygonShape.dispose();
         }
+
 
         public void setTamanoRectangulo(float width,float height){
                 rectangulo.setWidth(width);
@@ -80,22 +64,7 @@ public abstract class Personaje {
                 return rectangulo;
         }
 
-        /**
-         * Velocidade que toma cando se move.
-         */
-        public float velocidade_max;
-        /**
-         * Velocidade actual
-         */
-        protected float velocidade = 0;
-        /**
-         * Posición
-         */
-        protected Vector2 posicion;
-        /**
-         * Tamaño
-         */
-        protected Vector2 tamano;
+
  
         /**
          * Devolve a posicion
@@ -179,4 +148,5 @@ public abstract class Personaje {
          * @param delta: tempo entre unha chamada e a seguinte
          */
         public abstract void update(float delta);
+
 }

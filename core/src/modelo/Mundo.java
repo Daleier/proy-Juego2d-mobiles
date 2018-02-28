@@ -1,8 +1,17 @@
 package modelo;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+
+import javax.rmi.CORBA.Util;
+
+import controlador.ControladorContact;
+import game.B2DVars;
+import game.Utiles;
 
 /**
  * Created by dalei on 14/02/2018.
@@ -14,18 +23,21 @@ public class Mundo {
     private final int TEMPO_INICIAL_CRONOMETRO = 0;
     private float cronometro;
     private World world;
-	private static PersonajeJugable pj;
+	private ControladorContact contactListener;
+    private static PersonajeJugable pj;
 
     public Mundo() {
-        // TODO box2d implementation
+        Utiles.imprimirLog("Mundo","Constructor","Creado objeto mundo");
         world = new World(new Vector2(0, -9.8f), true);
+        contactListener = new ControladorContact();
+        world.setContactListener(contactListener);
 
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
-        this.pj = new PersonajeJugable(new Vector2(70,96),new Vector2(32,32),300f, world);
-
+        this.pj = new PersonajeJugable(new Vector2(480,300),new Vector2(32,32),300f, world);
 
     }
+
 
     public PersonajeJugable getPj(){
     	return pj;
@@ -45,6 +57,10 @@ public class Mundo {
 
     public World getWorld(){
         return world;
+    }
+
+    public ControladorContact getContactListener() {
+        return contactListener;
     }
 
 
