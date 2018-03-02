@@ -1,5 +1,7 @@
 package modelo;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -31,11 +33,10 @@ public class Mundo {
         world = new World(new Vector2(0, -9.8f), true);
         contactListener = new ControladorContact();
         world.setContactListener(contactListener);
-
+        // carga layer en variable
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
         this.pj = new PersonajeJugable(new Vector2(480,300),new Vector2(32,32),300f, world);
-
     }
 
 

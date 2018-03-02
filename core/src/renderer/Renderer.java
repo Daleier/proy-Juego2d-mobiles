@@ -8,10 +8,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.sun.org.apache.xpath.internal.SourceTree;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import game.AssetsJuego;
 import game.B2DVars;
@@ -45,8 +52,8 @@ public class Renderer implements InputProcessor{
         camera = new OrthographicCamera();
         width = Gdx.graphics.getWidth();
         heigth = Gdx.graphics.getHeight();
-//        camera.setToOrtho(false, width,heigth);
-//        camera.update();
+        camera.setToOrtho(false, width,heigth);
+        camera.update();
         spritebatch = new SpriteBatch();
         shaperender = new ShapeRenderer();
 
@@ -65,19 +72,51 @@ public class Renderer implements InputProcessor{
         int tilePixelHeight = properties.get("tileheight",Integer.class);
         levelPixelWidth = tilePixelWidth * levelWidth;
         levelPixelHeigth= tilePixelHeight * levelHeight;
-
+        TiledMapTileLayer layer = (TiledMapTileLayer) mapa.getLayers().get("cuadros");
+        crearBodyMapa(layer);
         Gdx.input.setInputProcessor(this);
     }
 
+    private void crearBodyMapa(TiledMapTileLayer layer){
+        BodyDef bDef = new BodyDef();
+        float tamañoTile = layer.getTileWidth();
+        for (int fila= 0 ; fila <layer.getHeight(); fila++){ // filas
+            for (int columna=0; columna < layer.getWidth(); columna++){ // columnas
+                Cell cell = layer.getCell(columna,fila);
+                if (cell == null)
+                    continue;
+                if (cell.getTile() == null)
+                    continue;
+                bDef.type = BodyType.StaticBody;
+                bDef.position.set((columna +0.5f) * tamañoTile/B2DVars.PIXELS_METER,
+                        (fila +0.5f) * tamañoTile/B2DVars.PIXELS_METER);
+                ChainShape cs = new ChainShape();
+                Vector2 v[] = new Vector2[3];
+                v[0] = new Vector2(- tamañoTile/2/B2DVars.PIXELS_METER, -tamañoTile/2/B2DVars.PIXELS_METER);
+                v[1]= new Vector2(- tamañoTile/2/B2DVars.PIXELS_METER, tamañoTile/2/B2DVars.PIXELS_METER);
+                v[2] = new Vector2(tamañoTile/2/B2DVars.PIXELS_METER, tamañoTile/2/B2DVars.PIXELS_METER);
+                cs.createChain(v);
+                FixtureDef fDef = new FixtureDef();
+                fDef.friction = 0;
+                fDef.shape= cs;
+                fDef.filter.categoryBits = B2DVars.BIT_SUELO;
+                fDef.filter.maskBits = B2DVars.BIT_JUGADOR;
+                fDef.isSensor = true;
+                mundo.getWorld().createBody(bDef).createFixture(fDef);
+                cs.dispose();
+            }
+        }
+    }
 
     public void render(float delta){
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,GL20.GL_ONE_MINUS_SRC_ALPHA);
-//        camera.position.x = Math.min(Math.max(mundo.getPj().getPosicionX(), width/2),levelPixelWidth-(width/2));
-//        camera.position.y = Math.min(Math.max(mundo.getPj().getPosicionY(), heigth/2),levelPixelHeigth-(heigth/2));
+        camera.position.x = Math.min(Math.max(mundo.getPj().getBody().getPosition().x, width/2),levelPixelWidth-(width/2));
+        camera.position.y = Math.min(Math.max(mundo.getPj().getBody().getPosition().y, heigth/2),levelPixelHeigth-(heigth/2));
         box2ddbr.render(mundo.getWorld(),box2dcam.combined);
-
+        rendererMapa.setView(camera);
+        rendererMapa.render();
         if(debugger){
             debug();
         }
@@ -94,7 +133,8 @@ public class Renderer implements InputProcessor{
 
     public void resize(int width, int height) {
         box2dcam.setToOrtho(false,width/ B2DVars.PIXELS_METER, heigth/ B2DVars.PIXELS_METER);
-		spritebatch.setProjectionMatrix(camera.combined);
+        camera.setToOrtho(false, width,heigth);
+        spritebatch.setProjectionMatrix(camera.combined);
         shaperender.setProjectionMatrix(camera.combined);
     }
 

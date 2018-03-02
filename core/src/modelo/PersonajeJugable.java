@@ -82,6 +82,10 @@ public class PersonajeJugable extends Personaje {
 		getRectangulo().y = getPosicion().y + getTamano().y / 4;
 	}
 
+	public Body getBody() {
+		return body;
+	}
+
 	@Override
 	public void update(float delta) {
 		setPosicion(getPosicion().x + velocidade.x * delta, getPosicion().y + velocidade.y * delta);
