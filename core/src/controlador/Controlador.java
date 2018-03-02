@@ -71,9 +71,9 @@ public class Controlador {
 				pj.getBody().setLinearVelocity(new Vector2(pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y));
 			} else {
 				if(pj.getBody().getLinearVelocity().y > 0.0f) { // subiendo
-					pj.getBody().setLinearVelocity(new Vector2(pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y*0.5f));
+					pj.getBody().applyLinearImpulse(new Vector2(5000f, 0),pj.getBody().getWorldCenter(), true);
 				}else{ // caida
-					pj.getBody().setLinearVelocity(new Vector2(+pj.velocidade_max*0.5f, pj.getBody().getLinearVelocity().y+world.getGravity().y));
+					pj.getBody().setLinearVelocity(new Vector2(pj.velocidade_max*0.5f, pj.getBody().getLinearVelocity().y+world.getGravity().y));
 				}
 			}
 		}
@@ -82,7 +82,7 @@ public class Controlador {
 				pj.getBody().setLinearVelocity(new Vector2(-pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y));
 			}else{
 				if(pj.getBody().getLinearVelocity().y > 0.0f) { // subiendo
-					pj.getBody().setLinearVelocity(new Vector2(-pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y * 0.5f));
+					pj.getBody().applyLinearImpulse(new Vector2(-5000f, 0),pj.getBody().getWorldCenter(), true);
 				}else{ // caida
 					pj.getBody().setLinearVelocity(new Vector2(-pj.velocidade_max*0.5f, pj.getBody().getLinearVelocity().y+world.getGravity().y));
 				}
