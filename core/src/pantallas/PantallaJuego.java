@@ -35,19 +35,25 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
-		switch(keycode){
+        switch(keycode){
+            case Input.Keys.SPACE:
+            case Input.Keys.W:
 			case Input.Keys.UP:
 				controlador.pulsarTecla(Controlador.Keys.ARRIBA);
 				break;
+            case Input.Keys.S:
 			case Input.Keys.DOWN:
 				controlador.pulsarTecla(Controlador.Keys.ABAJO);
 				break;
+            case Input.Keys.A:
 			case Input.Keys.LEFT:
 				controlador.pulsarTecla(Controlador.Keys.IZQUIERDA);
 				break;
+            case Input.Keys.D:
 			case Input.Keys.RIGHT:
-				controlador.pulsarTecla(Controlador.Keys.DERECHA);
+                controlador.pulsarTecla(Controlador.Keys.DERECHA);
 				break;
+
 		}
         return false;
     }
@@ -55,30 +61,29 @@ public class PantallaJuego implements Screen, InputProcessor{
     @Override
     public boolean keyUp(int keycode) {
 		switch (keycode) {
+            case Input.Keys.SPACE:
+		    case Input.Keys.W:
 			case Input.Keys.UP:
 				controlador.liberarTecla(Controlador.Keys.ARRIBA);
 				break;
+            case Input.Keys.S:
 			case Input.Keys.DOWN:
 				controlador.liberarTecla(Controlador.Keys.ABAJO);
 				break;
+            case Input.Keys.A:
 			case Input.Keys.LEFT:
 				controlador.liberarTecla(Controlador.Keys.IZQUIERDA);
 				break;
+            case Input.Keys.D:
 			case Input.Keys.RIGHT:
 				controlador.liberarTecla(Controlador.Keys.DERECHA);
 				break;
 		}
-        if(keycode == Input.Keys.NUM_1)
-            renderer.getMapa().getLayers().get(0).setVisible(!renderer.getMapa().getLayers().get(0).isVisible());
-        if(keycode == Input.Keys.NUM_2)
-            renderer.getMapa().getLayers().get(1).setVisible(!renderer.getMapa().getLayers().get(1).isVisible());
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        if(character == ' ' && mundo.getContactListener().isPersonajeOnGround())
-            mundo.getPj().jump();
         return false;
     }
 
@@ -108,11 +113,6 @@ public class PantallaJuego implements Screen, InputProcessor{
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(this);
-    }
-
-    @Override
     public void render(float delta) {
         controlador.update(delta);
         renderer.render(delta);
@@ -120,6 +120,7 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public void resize(int width, int height) {
+        Gdx.input.setInputProcessor(this);
         renderer.resize(width, height);
     }
 
@@ -134,6 +135,11 @@ public class PantallaJuego implements Screen, InputProcessor{
     }
 
     @Override
+    public void show() {
+        Gdx.input.setInputProcessor(this);
+    }
+
+    @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }
@@ -141,6 +147,7 @@ public class PantallaJuego implements Screen, InputProcessor{
     @Override
     public void dispose() {
         mundo.getWorld().dispose();
+        renderer.dispose();
         Gdx.input.setInputProcessor(null);
     }
 }

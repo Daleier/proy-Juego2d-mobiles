@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import controlador.ControladorContact;
 import game.B2DVars;
 
 public class PersonajeJugable extends Personaje {
@@ -23,33 +24,28 @@ public class PersonajeJugable extends Personaje {
 		//box2d
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.position.set(posicion.x/ B2DVars.PIXELS_METER, posicion.y/ B2DVars.PIXELS_METER);
+		bodyDef.position.set(posicion.x, posicion.y);
 		this.body = world.createBody(bodyDef);
-
+		this.body.setFixedRotation(true);
 		PolygonShape polygonShape = new PolygonShape();
-		polygonShape.setAsBox((tamano.x/2)/ B2DVars.PIXELS_METER,(tamano.y/2)/ B2DVars.PIXELS_METER);
-
+		polygonShape.setAsBox(tamano.x/2,tamano.y/2);
 		FixtureDef fDef = new FixtureDef();
 		fDef.shape = polygonShape;
 		fDef.density = 1f;
 		// colisiones box2d
 		fDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
-		fDef.filter.categoryBits = B2DVars.BIT_SUELO;
+		fDef.filter.maskBits = B2DVars.BIT_SUELO;
 		body.createFixture(fDef).setUserData("player");
 		//foot sensor
-		polygonShape.setAsBox((tamano.x /1.95f)/B2DVars.PIXELS_METER,(tamano.y * 0.2f)/B2DVars.PIXELS_METER, new Vector2(0,(-tamano.y*0.03f)/ B2DVars.PIXELS_METER),0);
+		polygonShape.setAsBox((tamano.x /2)*0.9f,(tamano.y/2) * 0.2f, new Vector2(0,-tamano.y*0.47f),0);
 		fDef.shape = polygonShape;
 		fDef.density=1f;
 		fDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
-		fDef.filter.categoryBits = B2DVars.BIT_SUELO;
+		fDef.filter.maskBits = B2DVars.BIT_SUELO;
 		fDef.isSensor= true;
-		body.createFixture(fDef).setUserData("foot"); //TODO saltos
+		body.createFixture(fDef).setUserData("foot");
 
 		polygonShape.dispose();
-	}
-
-	public void jump(){
-		body.applyForceToCenter(0, 100, true);
 	}
 
 	public void inicializarPJ() {
@@ -58,6 +54,10 @@ public class PersonajeJugable extends Personaje {
 		setVelocidadeY(0);
 		setTamano(15, 15);
 		getRectangulo().setSize(tamano.x / 2);
+	}
+
+	public Body getBody() {
+		return body;
 	}
 
 	public float getVelocidadeX() {
@@ -82,9 +82,6 @@ public class PersonajeJugable extends Personaje {
 		getRectangulo().y = getPosicion().y + getTamano().y / 4;
 	}
 
-	public Body getBody() {
-		return body;
-	}
 
 	@Override
 	public void update(float delta) {

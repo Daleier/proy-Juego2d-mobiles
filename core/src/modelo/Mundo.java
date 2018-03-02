@@ -1,5 +1,6 @@
 package modelo;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
@@ -20,8 +21,8 @@ import game.Utiles;
  */
 
 public class Mundo {
-    public static final int ANCHO_MUNDO = 480;
-    public static final int ALTO_MUNDO = 800;
+    public final float ANCHO_MUNDO;
+    public final float ALTO_MUNDO;
     private final int TEMPO_INICIAL_CRONOMETRO = 0;
     private float cronometro;
     private World world;
@@ -30,7 +31,9 @@ public class Mundo {
 
     public Mundo() {
         Utiles.imprimirLog("Mundo","Constructor","Creado objeto mundo");
-        world = new World(new Vector2(0, -9.8f), true);
+        this.ANCHO_MUNDO = Gdx.graphics.getWidth();
+        this.ALTO_MUNDO = Gdx.graphics.getHeight();
+        world = new World(new Vector2(0, -9.8f*3), true);
         contactListener = new ControladorContact();
         world.setContactListener(contactListener);
         // carga layer en variable

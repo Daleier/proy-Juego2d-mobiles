@@ -1,5 +1,6 @@
 package controlador;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class Controlador {
 	private World world;
 
 	public enum Keys {
-		IZQUIERDA, DERECHA,ARRIBA, ABAJO
+		IZQUIERDA, DERECHA,ARRIBA, ABAJO, ESPACIO
 	}
 
 	HashMap<Keys, Boolean> keys = new HashMap<Controlador.Keys, Boolean>();{
@@ -44,8 +45,8 @@ public class Controlador {
     public void update(float delta){
         mundo.updateCronometro(delta);
         world.step(delta,6,2);
-        controlarPJ(delta);
-        procesarEntradas();
+		procesarEntradas();
+		controlarPJ(delta);
     }
 
 	/**
@@ -65,17 +66,35 @@ public class Controlador {
 	}
 
 	private void procesarEntradas(){
-		if (keys.get(Keys.DERECHA))
-			pj.setVelocidadeX(pj.velocidade_max);
-		if (keys.get(Keys.IZQUIERDA))
-			pj.setVelocidadeX(-pj.velocidade_max);
-		if (!(keys.get(Keys.IZQUIERDA)) && (!(keys.get(Keys.DERECHA))))
-			pj.setVelocidadeX(0);
-		if (keys.get(Keys.ARRIBA))
-			pj.setVelocidadeY(pj.velocidade_max);
-		if (keys.get(Keys.ABAJO))
-			pj.setVelocidadeY(-pj.velocidade_max);
-		if (!(keys.get(Keys.ARRIBA)) && (!(keys.get(Keys.ABAJO))))
-			pj.setVelocidadeY(0);
+		if (keys.get(Keys.DERECHA)) {
+			if (mundo.getContactListener().isPersonajeOnGround()) { //suelo
+				pj.getBody().setLinearVelocity(new Vector2(pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y));
+			} else {
+				if(pj.getBody().getLinearVelocity().y > 0.0f) { // subiendo
+					pj.getBody().setLinearVelocity(new Vector2(pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y*0.5f));
+				}else{ // caida
+					pj.getBody().setLinearVelocity(new Vector2(+pj.velocidade_max*0.5f, pj.getBody().getLinearVelocity().y+world.getGravity().y));
+				}
+			}
+		}
+		if (keys.get(Keys.IZQUIERDA)) {
+			if (mundo.getContactListener().isPersonajeOnGround()) { // suelo
+				pj.getBody().setLinearVelocity(new Vector2(-pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y));
+			}else{
+				if(pj.getBody().getLinearVelocity().y > 0.0f) { // subiendo
+					pj.getBody().setLinearVelocity(new Vector2(-pj.velocidade_max, pj.getBody().getLinearVelocity().y+world.getGravity().y * 0.5f));
+				}else{ // caida
+					pj.getBody().setLinearVelocity(new Vector2(-pj.velocidade_max*0.5f, pj.getBody().getLinearVelocity().y+world.getGravity().y));
+				}
+			}
+		}
+		if (!(keys.get(Keys.DERECHA)) && (!(keys.get(Keys.IZQUIERDA)))){
+			pj.getBody().setLinearVelocity(new Vector2(0, pj.getBody().getLinearVelocity().y));
+		}
+		if (keys.get(Keys.ARRIBA)){
+			if(mundo.getContactListener().isPersonajeOnGround()) {
+				pj.getBody().applyLinearImpulse(new Vector2(pj.getBody().getLinearVelocity().x, 1000000),pj.getBody().getWorldCenter(), true);
+			}
+		}
 	}
 }

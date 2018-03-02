@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextobjectid="46">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="50" height="25" tilewidth="32" tileheight="32" infinite="0" nextobjectid="74">
  <tileset firstgid="1" source="test.tsx"/>
+ <objectgroup color="#ff0000" name="objects">
+  <object id="46" x="0.25" y="0" width="1599.75" height="63.6364"/>
+  <object id="47" x="1536" y="63.75" width="64" height="736.25"/>
+  <object id="48" x="0" y="64.375" width="64.125" height="735.875"/>
+  <object id="49" x="65.3333" y="736.125" width="318.792" height="63.875"/>
+  <object id="50" x="384" y="768.182" width="192.667" height="32.1515"/>
+  <object id="51" x="575.667" y="735.667" width="960.333" height="65"/>
+  <object id="52" x="127" y="544" width="129.5" height="32.5"/>
+  <object id="53" x="256" y="672" width="64.5" height="31.75"/>
+  <object id="54" x="576.333" y="640" width="64" height="31.6667"/>
+  <object id="55" x="704" y="608.333" width="63.6667" height="30.6667"/>
+  <object id="56" x="608.333" y="512.333" width="63.3333" height="62.6667"/>
+  <object id="57" x="543.75" y="512.75" width="64.5" height="31.5"/>
+  <object id="58" x="512" y="448" width="64.25" height="64"/>
+  <object id="59" x="416.25" y="447.75" width="95.75" height="32.5"/>
+  <object id="60" x="384" y="224.5" width="63.5" height="31"/>
+  <object id="61" x="416" y="255.75" width="320.25" height="31.75"/>
+  <object id="62" x="800" y="576" width="96.3333" height="31.3333"/>
+  <object id="63" x="800" y="479.333" width="128.667" height="32.3333"/>
+  <object id="64" x="864" y="448.333" width="31.6667" height="31.3333"/>
+  <object id="65" x="992.333" y="543.667" width="64" height="32"/>
+  <object id="66" x="1056.33" y="512" width="128.333" height="31.6667"/>
+  <object id="67" x="1024" y="640.333" width="95.6667" height="32.3333"/>
+  <object id="68" x="1280.67" y="639.333" width="96" height="32.6667"/>
+  <object id="69" x="1407.33" y="545.333" width="97.3333" height="30"/>
+  <object id="70" x="1471.33" y="511.333" width="65.3333" height="31.3333"/>
+  <object id="71" x="1184" y="416" width="256.667" height="30.6667"/>
+  <object id="72" x="927.333" y="319.667" width="192.667" height="32.3333"/>
+  <object id="73" x="1088" y="352" width="31.3333" height="31"/>
+ </objectgroup>
  <layer name="cuadros" width="50" height="25">
   <data encoding="csv">
 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,

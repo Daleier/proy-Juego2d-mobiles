@@ -6,25 +6,29 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+
 
 import game.AssetsJuego;
 import game.B2DVars;
 import game.Utiles;
 import modelo.Mundo;
 import modelo.PersonajeJugable;
+
+
+import static game.B2DVars.PPM;
 
 /**
  * Created by dalei on 14/02/2018.
@@ -33,126 +37,110 @@ import modelo.PersonajeJugable;
 public class Renderer implements InputProcessor{
 
     private Mundo mundo;
-    private boolean debugger=false;
-    private SpriteBatch spritebatch;
-    private OrthographicCamera camera;
-    private ShapeRenderer shaperender;
-    private TiledMap mapa;
-    private OrthogonalTiledMapRenderer rendererMapa;
-    private int levelPixelWidth;
-    private int levelPixelHeigth;
-    private int width;
-    private int heigth;
-    private Box2DDebugRenderer box2ddbr;
-    private OrthographicCamera box2dcam;
+    private SpriteBatch spriteBatch;
+    private ShapeRenderer shapeRenderer;
+    private OrthographicCamera camera2d;
+    private OrthographicCamera cameraHud;
+    private final float WIDTH;
+    private final float HEIGHT;
+    private boolean debug = false;
+    // box2d
+    private World world;
+    private Box2DDebugRenderer box2dRender;
+    // tiled map
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer mapRender;
+    private final int LEVELPIXELWIDTH;
+    private final int LEVELPIXELHEIHT;
 
-    public Renderer(Mundo mundo){
-        Utiles.imprimirLog("Renderer","Constructor","Creado objeto renderer");
+    public Renderer(Mundo mundo) {
+        Utiles.imprimirLog("Renderer", "Constructor", "Creado objeto renderer");
         this.mundo = mundo;
-        camera = new OrthographicCamera();
-        width = Gdx.graphics.getWidth();
-        heigth = Gdx.graphics.getHeight();
-        camera.setToOrtho(false, width,heigth);
-        camera.update();
-        spritebatch = new SpriteBatch();
-        shaperender = new ShapeRenderer();
-
-        //box2d camera
-        box2ddbr = new Box2DDebugRenderer();
-        box2dcam = new OrthographicCamera();
-        box2dcam.setToOrtho(false,width/ B2DVars.PIXELS_METER, heigth/ B2DVars.PIXELS_METER);
-
-        //tiled map
-        mapa = new TmxMapLoader().load("mapas/test/test.tmx"); //TODO cambiar ruta mapa
-		rendererMapa = new OrthogonalTiledMapRenderer(mapa);
-        MapProperties properties = mapa.getProperties();
+        spriteBatch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        camera2d = new OrthographicCamera();
+        cameraHud = new OrthographicCamera();
+        WIDTH = mundo.ANCHO_MUNDO;
+        HEIGHT = mundo.ALTO_MUNDO;
+        // box2d
+        this.world = this.mundo.getWorld();
+        box2dRender = new Box2DDebugRenderer();
+        // tiled map
+        map = new TmxMapLoader().load("mapas/test/test.tmx");
+        mapRender = new OrthogonalTiledMapRenderer(map);
+        // calcula tamaño del mapa
+        MapProperties properties = map.getProperties();
         int levelWidth = properties.get("width",Integer.class);
         int levelHeight = properties.get("height", Integer.class);
         int tilePixelWidth = properties.get("tilewidth", Integer.class);
         int tilePixelHeight = properties.get("tileheight",Integer.class);
-        levelPixelWidth = tilePixelWidth * levelWidth;
-        levelPixelHeigth= tilePixelHeight * levelHeight;
-        TiledMapTileLayer layer = (TiledMapTileLayer) mapa.getLayers().get("cuadros");
-        crearBodyMapa(layer);
+        LEVELPIXELWIDTH = tilePixelWidth * levelWidth;
+        LEVELPIXELHEIHT= tilePixelHeight * levelHeight;
+        // asignar fisicas a cuadros mapa
+        BodyDef bdef = new BodyDef();
+        Body body;
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        for(MapObject object : map.getLayers().get("objects").getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
+            body = world.createBody(bdef);
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            fdef.shape = shape;
+            fdef.filter.categoryBits = B2DVars.BIT_SUELO;
+            fdef.filter.maskBits = B2DVars.BIT_JUGADOR;
+            fdef.isSensor = false;
+            body.createFixture(fdef).setUserData("platform");
+        }
         Gdx.input.setInputProcessor(this);
     }
 
-    private void crearBodyMapa(TiledMapTileLayer layer){
-        BodyDef bDef = new BodyDef();
-        float tamañoTile = layer.getTileWidth();
-        for (int fila= 0 ; fila <layer.getHeight(); fila++){ // filas
-            for (int columna=0; columna < layer.getWidth(); columna++){ // columnas
-                Cell cell = layer.getCell(columna,fila);
-                if (cell == null)
-                    continue;
-                if (cell.getTile() == null)
-                    continue;
-                bDef.type = BodyType.StaticBody;
-                bDef.position.set((columna +0.5f) * tamañoTile/B2DVars.PIXELS_METER,
-                        (fila +0.5f) * tamañoTile/B2DVars.PIXELS_METER);
-                ChainShape cs = new ChainShape();
-                Vector2 v[] = new Vector2[3];
-                v[0] = new Vector2(- tamañoTile/2/B2DVars.PIXELS_METER, -tamañoTile/2/B2DVars.PIXELS_METER);
-                v[1]= new Vector2(- tamañoTile/2/B2DVars.PIXELS_METER, tamañoTile/2/B2DVars.PIXELS_METER);
-                v[2] = new Vector2(tamañoTile/2/B2DVars.PIXELS_METER, tamañoTile/2/B2DVars.PIXELS_METER);
-                cs.createChain(v);
-                FixtureDef fDef = new FixtureDef();
-                fDef.friction = 0;
-                fDef.shape= cs;
-                fDef.filter.categoryBits = B2DVars.BIT_SUELO;
-                fDef.filter.maskBits = B2DVars.BIT_JUGADOR;
-                fDef.isSensor = true;
-                mundo.getWorld().createBody(bDef).createFixture(fDef);
-                cs.dispose();
-            }
-        }
-    }
-
     public void render(float delta){
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,GL20.GL_ONE_MINUS_SRC_ALPHA);
-        camera.position.x = Math.min(Math.max(mundo.getPj().getBody().getPosition().x, width/2),levelPixelWidth-(width/2));
-        camera.position.y = Math.min(Math.max(mundo.getPj().getBody().getPosition().y, heigth/2),levelPixelHeigth-(heigth/2));
-        box2ddbr.render(mundo.getWorld(),box2dcam.combined);
-        rendererMapa.setView(camera);
-        rendererMapa.render();
-        if(debugger){
+        camera2d.position.x = Math.min(Math.max(mundo.getPj().getBody().getPosition().x, WIDTH/2),LEVELPIXELWIDTH-(WIDTH/2));
+        camera2d.position.y = Math.min(Math.max(mundo.getPj().getBody().getPosition().y, HEIGHT/2),LEVELPIXELHEIHT-(HEIGHT/2));
+        camera2d.update();
+        mapRender.setView(camera2d);
+        mapRender.render();
+        spriteBatch.setProjectionMatrix(camera2d.combined);
+        spriteBatch.begin();
+        dibujarPj();
+
+        spriteBatch.end();
+        box2dRender.render(world, camera2d.combined);
+        if(debug){
             debug();
         }
     }
 
-    public void dibujarPj() {
+    public void dibujarPj(){
         PersonajeJugable pj = mundo.getPj();
-		spritebatch.draw(AssetsJuego.texturePJ, pj.getPosicion().x, pj.getPosicion().y, pj.getTamano().x, pj.getTamano().y );
+        spriteBatch.draw(AssetsJuego.texturePJ,
+                pj.getBody().getPosition().x - pj.getTamano().x/2, pj.getBody().getPosition().y - pj.getTamano().y/2,
+                pj.getTamano().x, pj.getTamano().y);
     }
 
-    public void debug() {
+    private void debug(){
 
     }
 
     public void resize(int width, int height) {
-        box2dcam.setToOrtho(false,width/ B2DVars.PIXELS_METER, heigth/ B2DVars.PIXELS_METER);
-        camera.setToOrtho(false, width,heigth);
-        spritebatch.setProjectionMatrix(camera.combined);
-        shaperender.setProjectionMatrix(camera.combined);
+        camera2d.setToOrtho(false,WIDTH,HEIGHT);
+        camera2d.update();
+        spriteBatch.setProjectionMatrix(camera2d.combined);
+        shapeRenderer.setProjectionMatrix(camera2d.combined);
     }
 
     public void dispose() {
+        spriteBatch.dispose();
+        shapeRenderer.dispose();
+        map.dispose();
+        world.dispose();
+        box2dRender.dispose();
         Gdx.input.setInputProcessor(null);
-        spritebatch.dispose();
-        shaperender.dispose();
-        rendererMapa.dispose();
-        mapa.dispose();
     }
-
-    public TiledMap getMapa() {
-    	return mapa;
-	}
-
-	public OrthographicCamera getCamera() {
-    	return camera;
-	}
 
     @Override
     public boolean keyDown(int keycode) {
