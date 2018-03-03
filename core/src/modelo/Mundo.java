@@ -33,7 +33,7 @@ public class Mundo {
         Utiles.imprimirLog("Mundo","Constructor","Creado objeto mundo");
         this.ANCHO_MUNDO = Gdx.graphics.getWidth();
         this.ALTO_MUNDO = Gdx.graphics.getHeight();
-        world = new World(new Vector2(0, -9.8f), true);
+        world = new World(new Vector2(0, -9.8f*2f), true);
         contactListener = new ControladorContact();
         world.setContactListener(contactListener);
         // carga layer en variable
