@@ -93,7 +93,7 @@ public class Controlador {
 		}
 		if (keys.get(Keys.ARRIBA)){
 			if(mundo.getContactListener().isPersonajeOnGround()) {
-				pj.getBody().applyLinearImpulse(new Vector2(pj.getBody().getLinearVelocity().x, 1000000),pj.getBody().getWorldCenter(), true);
+				pj.getBody().applyLinearImpulse(new Vector2(pj.getBody().getLinearVelocity().x, 999999999),pj.getBody().getWorldCenter(), true);
 			}
 		}
 	}

@@ -1,8 +1,9 @@
 package game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Array;
 
-import modelo.Mundo;
 import pantallas.PantallaJuego;
 
 

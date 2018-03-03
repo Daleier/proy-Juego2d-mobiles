@@ -15,7 +15,6 @@ public class PersonajeJugable extends Personaje {
 	private Vector2 velocidade;
 	private Body body;
 
-
 	public PersonajeJugable(Vector2 posicion, Vector2 tamano, float velocidade_max,World world) {
 		super(posicion, tamano, velocidade_max);
 		velocidade = new Vector2(0, 0);

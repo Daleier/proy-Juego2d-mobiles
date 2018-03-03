@@ -1,0 +1,75 @@
+zombief.png
+size: 1708, 1073
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Walk (1)
+  rotate: false
+  xy: 1367, 1
+  size: 340, 522
+  orig: 521, 576
+  offset: 100, 11
+  index: -1
+Walk (2)
+  rotate: false
+  xy: 684, 1
+  size: 340, 537
+  orig: 521, 576
+  offset: 98, 0
+  index: -1
+Walk (3)
+  rotate: false
+  xy: 1368, 525
+  size: 339, 539
+  orig: 521, 576
+  offset: 97, 2
+  index: -1
+Walk (4)
+  rotate: false
+  xy: 1027, 539
+  size: 339, 533
+  orig: 521, 576
+  offset: 97, 8
+  index: -1
+Walk (5)
+  rotate: false
+  xy: 685, 540
+  size: 340, 530
+  orig: 521, 576
+  offset: 98, 7
+  index: -1
+Walk (6)
+  rotate: false
+  xy: 1, 545
+  size: 340, 523
+  orig: 521, 576
+  offset: 100, 10
+  index: -1
+Walk (7)
+  rotate: false
+  xy: 342, 1
+  size: 340, 538
+  orig: 521, 576
+  offset: 96, 0
+  index: -1
+Walk (8)
+  rotate: false
+  xy: 1, 1
+  size: 339, 542
+  orig: 521, 576
+  offset: 92, 0
+  index: -1
+Walk (9)
+  rotate: false
+  xy: 1026, 1
+  size: 339, 536
+  orig: 521, 576
+  offset: 92, 6
+  index: -1
+Walk (10)
+  rotate: false
+  xy: 343, 541
+  size: 340, 531
+  orig: 521, 576
+  offset: 96, 7
+  index: -1

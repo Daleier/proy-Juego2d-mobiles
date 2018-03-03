@@ -1,0 +1,110 @@
+jump.png
+size: 1016, 2203
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Jump (1)
+  rotate: false
+  xy: 674, 887
+  size: 322, 433
+  orig: 416, 454
+  offset: 61, 8
+  index: -1
+Jump (2)
+  rotate: false
+  xy: 342, 1320
+  size: 319, 442
+  orig: 416, 454
+  offset: 56, 3
+  index: -1
+Jump (3)
+  rotate: false
+  xy: 674, 1758
+  size: 317, 444
+  orig: 416, 454
+  offset: 50, 4
+  index: -1
+Jump (4)
+  rotate: false
+  xy: 700, 1
+  size: 315, 443
+  orig: 416, 454
+  offset: 44, 8
+  index: -1
+Jump (5)
+  rotate: false
+  xy: 683, 446
+  size: 323, 439
+  orig: 416, 454
+  offset: 39, 15
+  index: -1
+Jump (6)
+  rotate: false
+  xy: 345, 880
+  size: 327, 438
+  orig: 416, 454
+  offset: 35, 15
+  index: -1
+Jump (7)
+  rotate: false
+  xy: 351, 439
+  size: 330, 439
+  orig: 416, 454
+  offset: 32, 14
+  index: -1
+Jump (8)
+  rotate: false
+  xy: 339, 1764
+  size: 333, 438
+  orig: 416, 454
+  offset: 29, 14
+  index: -1
+Jump (9)
+  rotate: false
+  xy: 1, 1761
+  size: 336, 439
+  orig: 416, 454
+  offset: 26, 13
+  index: -1
+Jump (10)
+  rotate: false
+  xy: 1, 1320
+  size: 339, 439
+  orig: 416, 454
+  offset: 23, 12
+  index: -1
+Jump (11)
+  rotate: false
+  xy: 1, 880
+  size: 342, 438
+  orig: 416, 454
+  offset: 20, 12
+  index: -1
+Jump (12)
+  rotate: false
+  xy: 1, 440
+  size: 345, 438
+  orig: 416, 454
+  offset: 17, 11
+  index: -1
+Jump (13)
+  rotate: false
+  xy: 1, 1
+  size: 348, 437
+  orig: 416, 454
+  offset: 14, 11
+  index: -1
+Jump (14)
+  rotate: false
+  xy: 351, 1
+  size: 347, 436
+  orig: 416, 454
+  offset: 17, 12
+  index: -1
+Jump (15)
+  rotate: false
+  xy: 663, 1322
+  size: 346, 434
+  orig: 416, 454
+  offset: 20, 13
+  index: -1

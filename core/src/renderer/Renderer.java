@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -44,6 +47,7 @@ public class Renderer implements InputProcessor{
     private final float WIDTH;
     private final float HEIGHT;
     private boolean debug = false;
+    private float aniCrono = 0;
     // box2d
     private World world;
     private Box2DDebugRenderer box2dRender;
@@ -66,7 +70,7 @@ public class Renderer implements InputProcessor{
         this.world = this.mundo.getWorld();
         box2dRender = new Box2DDebugRenderer();
         // tiled map
-        map = new TmxMapLoader().load("mapas/test/test.tmx");
+        map = new TmxMapLoader().load("mapas/mapa1/mapa1.tmx");
         mapRender = new OrthogonalTiledMapRenderer(map);
         // calcula tamaño del mapa
         MapProperties properties = map.getProperties();
@@ -81,7 +85,7 @@ public class Renderer implements InputProcessor{
         Body body;
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        for(MapObject object : map.getLayers().get("objects").getObjects().getByType(RectangleMapObject.class)){
+        for(MapObject object : map.getLayers().get("obj-obstaculos").getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
@@ -93,10 +97,23 @@ public class Renderer implements InputProcessor{
             fdef.isSensor = false;
             body.createFixture(fdef).setUserData("platform");
         }
+        for(MapObject object : map.getLayers().get("obj-peligrosos").getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
+            body = world.createBody(bdef);
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            fdef.shape = shape;
+            fdef.filter.categoryBits = B2DVars.BIT_SUELO;
+            fdef.filter.maskBits = B2DVars.BIT_JUGADOR;
+            fdef.isSensor = false;
+            body.createFixture(fdef).setUserData("danger-zone");
+        }
         Gdx.input.setInputProcessor(this);
     }
 
     public void render(float delta){
+        aniCrono += delta;
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera2d.position.x = Math.min(Math.max(mundo.getPj().getBody().getPosition().x, WIDTH/2),LEVELPIXELWIDTH-(WIDTH/2));
@@ -106,8 +123,7 @@ public class Renderer implements InputProcessor{
         mapRender.render();
         spriteBatch.setProjectionMatrix(camera2d.combined);
         spriteBatch.begin();
-        dibujarPj();
-
+        dibujarPj(aniCrono);
         spriteBatch.end();
         box2dRender.render(world, camera2d.combined);
         if(debug){
@@ -115,11 +131,22 @@ public class Renderer implements InputProcessor{
         }
     }
 
-    public void dibujarPj(){
+    public void dibujarPj(float crono){
         PersonajeJugable pj = mundo.getPj();
-        spriteBatch.draw(AssetsJuego.texturePJ,
+        Sprite sprite = null;
+        if(pj.getBody().getLinearVelocity().y > 0 || !mundo.getContactListener().isPersonajeOnGround()) { // jumping
+            sprite = (Sprite) AssetsJuego.pjJumping.getKeyFrame(crono, false);
+        }else if(pj.getBody().getLinearVelocity().y < 0 || !mundo.getContactListener().isPersonajeOnGround()) { // falling
+            sprite = (Sprite) AssetsJuego.pjFalling.getKeyFrame(crono, false);
+        }else if(pj.getBody().getLinearVelocity().x != 0){ // running
+            sprite = (Sprite) AssetsJuego.pjRunning.getKeyFrame(crono,true);
+        }else{ //idle
+            sprite = (Sprite) AssetsJuego.pjIdle.getKeyFrame(crono,true); // idle
+        }
+        spriteBatch.draw(sprite,
                 pj.getBody().getPosition().x - pj.getTamano().x/2, pj.getBody().getPosition().y - pj.getTamano().y/2,
                 pj.getTamano().x, pj.getTamano().y);
+
     }
 
     private void debug(){

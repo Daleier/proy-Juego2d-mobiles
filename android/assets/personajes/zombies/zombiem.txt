@@ -1,0 +1,75 @@
+zombiem.png
+size: 3046, 481
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Walk (1)
+  rotate: false
+  xy: 2761, 1
+  size: 284, 460
+  orig: 430, 519
+  offset: 72, 11
+  index: -1
+Walk (2)
+  rotate: false
+  xy: 895, 1
+  size: 315, 475
+  orig: 430, 519
+  offset: 39, 0
+  index: -1
+Walk (3)
+  rotate: false
+  xy: 557, 1
+  size: 336, 475
+  orig: 430, 519
+  offset: 16, 3
+  index: -1
+Walk (4)
+  rotate: false
+  xy: 1502, 1
+  size: 335, 469
+  orig: 430, 519
+  offset: 17, 9
+  index: -1
+Walk (5)
+  rotate: false
+  xy: 2124, 1
+  size: 322, 467
+  orig: 430, 519
+  offset: 32, 8
+  index: -1
+Walk (6)
+  rotate: false
+  xy: 2448, 1
+  size: 311, 460
+  orig: 430, 519
+  offset: 45, 11
+  index: -1
+Walk (7)
+  rotate: false
+  xy: 282, 1
+  size: 273, 476
+  orig: 430, 519
+  offset: 79, 0
+  index: -1
+Walk (8)
+  rotate: false
+  xy: 1, 1
+  size: 279, 479
+  orig: 430, 519
+  offset: 69, 1
+  index: -1
+Walk (9)
+  rotate: false
+  xy: 1212, 1
+  size: 288, 473
+  orig: 430, 519
+  offset: 60, 7
+  index: -1
+Walk (10)
+  rotate: false
+  xy: 1839, 1
+  size: 283, 469
+  orig: 430, 519
+  offset: 69, 7
+  index: -1

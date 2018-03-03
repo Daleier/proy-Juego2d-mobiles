@@ -33,13 +33,13 @@ public class Mundo {
         Utiles.imprimirLog("Mundo","Constructor","Creado objeto mundo");
         this.ANCHO_MUNDO = Gdx.graphics.getWidth();
         this.ALTO_MUNDO = Gdx.graphics.getHeight();
-        world = new World(new Vector2(0, -9.8f*3), true);
+        world = new World(new Vector2(0, -9.8f), true);
         contactListener = new ControladorContact();
         world.setContactListener(contactListener);
         // carga layer en variable
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
-        this.pj = new PersonajeJugable(new Vector2(480,300),new Vector2(32,32),300f, world);
+        this.pj = new PersonajeJugable(new Vector2(700,310),new Vector2(52,56.75f),300f, world);
     }
 
 
