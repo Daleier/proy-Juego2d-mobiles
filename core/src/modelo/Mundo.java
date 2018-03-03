@@ -23,7 +23,7 @@ import game.Utiles;
 public class Mundo {
     public final float ANCHO_MUNDO;
     public final float ALTO_MUNDO;
-    private final int TEMPO_INICIAL_CRONOMETRO = 0;
+    private final int TEMPO_INICIAL_CRONOMETRO = 120;
     private float cronometro;
     private World world;
 	private ControladorContact contactListener;
@@ -56,7 +56,7 @@ public class Mundo {
     }
 
     public void updateCronometro(float delta) {
-        cronometro += delta; //cambiar a -= para cuenta regresiva
+        cronometro -= delta;
     }
 
     public World getWorld(){
