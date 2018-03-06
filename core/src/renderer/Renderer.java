@@ -27,6 +27,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import game.AssetsJuego;
 import game.B2DVars;
 import game.Utiles;
+import modelo.Hud;
 import modelo.Mundo;
 import modelo.PersonajeJugable;
 
@@ -56,6 +57,8 @@ public class Renderer implements InputProcessor{
     private OrthogonalTiledMapRenderer mapRender;
     private final int LEVELPIXELWIDTH;
     private final int LEVELPIXELHEIHT;
+    // hud
+    private Hud hud;
 
     public Renderer(Mundo mundo) {
         Utiles.imprimirLog("Renderer", "Constructor", "Creado objeto renderer");
@@ -80,6 +83,12 @@ public class Renderer implements InputProcessor{
         int tilePixelHeight = properties.get("tileheight",Integer.class);
         LEVELPIXELWIDTH = tilePixelWidth * levelWidth;
         LEVELPIXELHEIHT= tilePixelHeight * levelHeight;
+        crearFisicasMapa();
+        Gdx.input.setInputProcessor(this);
+        hud = new Hud(mundo, spriteBatch);
+    }
+
+    private void crearFisicasMapa() {
         // asignar fisicas a cuadros mapa
         BodyDef bdef = new BodyDef();
         Body body;
@@ -109,7 +118,6 @@ public class Renderer implements InputProcessor{
             fdef.isSensor = false;
             body.createFixture(fdef).setUserData("danger-zone");
         }
-        Gdx.input.setInputProcessor(this);
     }
 
     public void render(float delta){
@@ -126,6 +134,8 @@ public class Renderer implements InputProcessor{
         dibujarPj(aniCrono);
         spriteBatch.end();
         box2dRender.render(world, camera2d.combined);
+        hud.update();
+        hud.stage.draw();
         if(debug){
             debug();
         }
