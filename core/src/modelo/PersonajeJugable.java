@@ -85,6 +85,10 @@ public class PersonajeJugable extends Personaje {
 		return coins;
 	}
 
+	public int getVidas_restantes(){
+		return vidas_restantes;
+	}
+
 	@Override
 	public void actualizarRectangulo() {
 		getRectangulo().x = getPosicion().x + getTamano().x / 4;

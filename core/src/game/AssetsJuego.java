@@ -23,6 +23,16 @@ public class AssetsJuego {
 	public static Animation zombieMale;
 	public static Animation zombieFemale;
 	public static Animation coin;
+	public static Texture pause;
+	public static Texture menu;
+	public static Texture sound;
+	public static Texture sound_inactive;
+	public static Texture leftarrow;
+	public static Texture rightarrow;
+	public static Texture uparrow;
+	public static Texture timer;
+	public static Texture health;
+	public static Texture icoCoin;
 
 	public static void cargarTexturas(){
 
@@ -53,6 +63,36 @@ public class AssetsJuego {
 		atlas = new TextureAtlas("personajes/coins/coin.txt");
 		Array<Sprite> coins = atlas.createSprites();
 		coin = new Animation(0.5f, coins);
+
+		FileHandle imageFileHandle = Gdx.files.internal("iconos/pause.png");
+		pause = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/menue.png");
+		menu = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/sound.png");
+		sound = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/sound_inactive.png");
+		sound_inactive = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/leftarrow.png");
+		leftarrow = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/rightarrow.png");
+		rightarrow = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/uparrow.png");
+		uparrow = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/timer.png");
+		timer = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/health.png");
+		health = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/ico_coin.png");
+		icoCoin = new Texture(imageFileHandle);
 	}
 
 
@@ -61,6 +101,16 @@ public class AssetsJuego {
 	 */
 	public static void liberarTexturas(){
 		atlas.dispose();
+		pause.dispose();
+		menu.dispose();
+		sound.dispose();
+		sound_inactive.dispose();
+		leftarrow.dispose();
+		rightarrow.dispose();
+		uparrow.dispose();
+		timer.dispose();
+		health.dispose();
+		icoCoin.dispose();
 	}
 
 }

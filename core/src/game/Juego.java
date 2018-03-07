@@ -12,8 +12,8 @@ public class Juego extends Game {
 	@Override
 	public void create () {
 		Utiles.imprimirLog("Juego","Constructor","Creado objeto juego");
-		setScreen(new PantallaJuego(this));
 		AssetsJuego.cargarTexturas();
+		setScreen(new PantallaJuego(this));
 	}
 
 

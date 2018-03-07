@@ -2,11 +2,11 @@ package renderer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -31,9 +30,6 @@ import modelo.Hud;
 import modelo.Mundo;
 import modelo.PersonajeJugable;
 
-
-import static game.B2DVars.PPM;
-
 /**
  * Created by dalei on 14/02/2018.
  */
@@ -47,7 +43,7 @@ public class Renderer implements InputProcessor{
     private OrthographicCamera cameraHud;
     private final float WIDTH;
     private final float HEIGHT;
-    private boolean debug = true;
+    private boolean debug = false;
     private float aniCrono = 0;
     // box2d
     private World world;
@@ -89,7 +85,7 @@ public class Renderer implements InputProcessor{
     }
 
     private void crearFisicasMapa() {
-        // asignar fisicas a cuadros mapa
+        // asignar fisicas rectangleUpArrow cuadros mapa
         BodyDef bdef = new BodyDef();
         Body body;
         FixtureDef fdef = new FixtureDef();
@@ -172,6 +168,11 @@ public class Renderer implements InputProcessor{
 
     private void debug(){
         box2dRender.render(world, camera2d.combined);
+        shapeRenderer.setAutoShapeType(true);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.begin();
+
+        shapeRenderer.end();
     }
 
     public void resize(int width, int height) {

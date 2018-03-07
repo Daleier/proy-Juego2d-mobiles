@@ -20,14 +20,13 @@ public class Controlador {
 	private World world;
 
 	public enum Keys {
-		IZQUIERDA, DERECHA,ARRIBA, ABAJO, ESPACIO
+		IZQUIERDA, DERECHA,ARRIBA
 	}
 
 	HashMap<Keys, Boolean> keys = new HashMap<Controlador.Keys, Boolean>();{
 		keys.put(Keys.IZQUIERDA, false);
 		keys.put(Keys.DERECHA, false);
 		keys.put(Keys.ARRIBA, false);
-		keys.put(Keys.ABAJO, false);
 	};
 
     public Controlador(Mundo mundo){
@@ -49,7 +48,7 @@ public class Controlador {
     }
 
 	/**
-	 * Modifica o estado do mapa de teclas e pon a true
+	 * Modifica o estado do mapa de teclas e pon rectangleUpArrow true
 	 * @param tecla: tecla pulsada
 	 */
 	public void pulsarTecla(Keys tecla){
@@ -57,7 +56,7 @@ public class Controlador {
 	}
 
 	/**
-	 * Modifica o estado do mapa de teclas e pon a false
+	 * Modifica o estado do mapa de teclas e pon rectangleUpArrow false
 	 * @param tecla: tecla liberada
 	 */
 	public void liberarTecla(Keys tecla){

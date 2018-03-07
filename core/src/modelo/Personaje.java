@@ -48,7 +48,7 @@ public abstract class Personaje {
         }
 
         /**
-         * Actualiza a posición do rectángulo asociado á forma do gráfico
+         * Actualiza rectangleUpArrow posición do rectángulo asociado á forma do gráfico
          *
          */
         public void actualizarRectangulo(){
@@ -67,7 +67,7 @@ public abstract class Personaje {
 
  
         /**
-         * Devolve a posicion
+         * Devolve rectangleUpArrow posicion
          * @return posicion
          */
         public Vector2 getPosicion() {
@@ -82,8 +82,8 @@ public abstract class Personaje {
                 return Math.round(this.posicion.y);
         }
         /**
-         * Modifica a posición
-         * @param posicion: a nova posicion
+         * Modifica rectangleUpArrow posición
+         * @param posicion: rectangleUpArrow nova posicion
          */
         public void setPosicion(Vector2 posicion) {
                 this.posicion = posicion;
@@ -91,7 +91,7 @@ public abstract class Personaje {
         }
  
         /**
-         * Modifica a posición
+         * Modifica rectangleUpArrow posición
          *
          * @param x: nova posición x
          * @param y: nova posición y
@@ -104,15 +104,15 @@ public abstract class Personaje {
         }
  
         /**
-         * Modifica a velocidade
-         * @param velocidade: a nova velocidade
+         * Modifica rectangleUpArrow velocidade
+         * @param velocidade: rectangleUpArrow nova velocidade
          */
         public void setVelocidade(float velocidade) {
                 this.velocidade = velocidade;
         }
  
         /**
-         * Devolve a velocidade
+         * Devolve rectangleUpArrow velocidade
          * @return velocidade
          */
         public float getVelocidade() {
