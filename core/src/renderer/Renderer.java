@@ -47,7 +47,7 @@ public class Renderer implements InputProcessor{
     private OrthographicCamera cameraHud;
     private final float WIDTH;
     private final float HEIGHT;
-    private boolean debug = false;
+    private boolean debug = true;
     private float aniCrono = 0;
     // box2d
     private World world;
@@ -113,10 +113,22 @@ public class Renderer implements InputProcessor{
             body = world.createBody(bdef);
             shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
             fdef.shape = shape;
-            fdef.filter.categoryBits = B2DVars.BIT_SUELO;
+            fdef.filter.categoryBits = B2DVars.BIT_PELIGRO;
             fdef.filter.maskBits = B2DVars.BIT_JUGADOR;
             fdef.isSensor = false;
             body.createFixture(fdef).setUserData("danger-zone");
+        }
+        for(MapObject object : map.getLayers().get("salida").getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
+            body = world.createBody(bdef);
+            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
+            fdef.shape = shape;
+            fdef.filter.categoryBits = B2DVars.BIT_SALIDA;
+            fdef.filter.maskBits = B2DVars.BIT_JUGADOR;
+            fdef.isSensor = true;
+            body.createFixture(fdef).setUserData("exit");
         }
     }
 
@@ -133,7 +145,6 @@ public class Renderer implements InputProcessor{
         spriteBatch.begin();
         dibujarPj(aniCrono);
         spriteBatch.end();
-        box2dRender.render(world, camera2d.combined);
         hud.update();
         hud.stage.draw();
         if(debug){
@@ -160,7 +171,7 @@ public class Renderer implements InputProcessor{
     }
 
     private void debug(){
-
+        box2dRender.render(world, camera2d.combined);
     }
 
     public void resize(int width, int height) {

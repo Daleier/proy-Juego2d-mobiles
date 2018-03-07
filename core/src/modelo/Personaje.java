@@ -142,11 +142,4 @@ public abstract class Personaje {
                 this.tamano=tamano;
                 setTamanoRectangulo(tamano.x,tamano.y);
         }
-
-        /**
-         * Actualiza a posición en función da velocidade
-         * @param delta: tempo entre unha chamada e a seguinte
-         */
-        public abstract void update(float delta);
-
 }

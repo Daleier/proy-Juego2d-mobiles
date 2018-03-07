@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="130" height="29" tilewidth="70" tileheight="70" infinite="0" nextobjectid="69">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="130" height="29" tilewidth="70" tileheight="70" infinite="0" nextobjectid="71">
  <tileset firstgid="1" source="spritefile.tsx"/>
  <tileset firstgid="465" source="bg.tsx"/>
  <layer name="fondo" width="130" height="29">
@@ -70,9 +70,9 @@
  </layer>
  <objectgroup name="obj-peligrosos">
   <object id="57" x="2032.5" y="1893.33" width="1195.5" height="135.667"/>
-  <object id="58" x="2090.67" y="1832.67" width="1276" height="53.3333"/>
-  <object id="59" x="7421.33" y="1561.33" width="1048" height="466.667"/>
-  <object id="67" x="7630" y="1283.5" width="209.5" height="45"/>
+  <object id="58" x="2090.67" y="1852.67" width="1276" height="33.3333"/>
+  <object id="59" x="7421.33" y="1571.33" width="1048" height="456.667"/>
+  <object id="67" x="7630" y="1295.5" width="209.5" height="33"/>
  </objectgroup>
  <layer name="obstaculos" width="130" height="29">
   <data encoding="csv">
@@ -115,8 +115,6 @@
   <object id="5" x="0" y="1820.5" width="770" height="210.167"/>
   <object id="6" x="769.333" y="1888" width="561.333" height="140"/>
   <object id="7" x="1330.67" y="1818.67" width="348" height="210.667"/>
-  <object id="8" x="1681.33" y="1749.92" width="348" height="282.083"/>
-  <object id="13" x="2029.33" y="1750.05" width="70.6667" height="70.2917"/>
   <object id="14" x="2029" y="1819.67" width="58.6667" height="69.6667"/>
   <object id="15" x="3230.67" y="1608.5" width="58.6667" height="69.6667"/>
   <object id="16" x="3232" y="1959.83" width="58.6667" height="69.6667"/>
@@ -155,11 +153,15 @@
   <object id="52" x="6930.67" y="770.67" width="209.333" height="39"/>
   <object id="54" x="7349.33" y="559.333" width="210.667" height="40"/>
   <object id="55" x="7980" y="769.5" width="69" height="41"/>
-  <object id="56" x="7628.67" y="1329.33" width="211.333" height="44.6667"/>
+  <object id="56" x="7629.17" y="1329" width="211.333" height="44.6667"/>
   <object id="62" x="3230.67" y="1608.5" width="58.6667" height="69.6667"/>
   <object id="63" x="1260" y="1540" width="209.667" height="41.3333"/>
   <object id="64" x="1610" y="1330.5" width="139.5" height="39.5"/>
   <object id="65" x="1890" y="1190" width="350" height="40"/>
+  <object id="70" x="1679.67" y="1749.67" width="419.833" height="70.8333"/>
+ </objectgroup>
+ <objectgroup name="salida">
+  <object id="69" x="8612.67" y="690.667" width="205.333" height="145.333"/>
  </objectgroup>
  <layer name="decorado" width="130" height="29">
   <data encoding="csv">

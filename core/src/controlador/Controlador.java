@@ -38,7 +38,6 @@ public class Controlador {
     }
 
     public void controlarPJ(float delta) {
-    	pj.update(delta);
 		//TODO implement
 	}
 

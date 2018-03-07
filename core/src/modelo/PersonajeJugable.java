@@ -1,5 +1,6 @@
 package modelo;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,13 +13,17 @@ import game.B2DVars;
 
 public class PersonajeJugable extends Personaje {
 
-	private Vector2 velocidade;
 	private Body body;
+	private int tiempo_muerte;
+	private int vidas_restantes;
+	private int coins;
 
-	public PersonajeJugable(Vector2 posicion, Vector2 tamano, float velocidade_max,World world) {
+	public PersonajeJugable(Vector2 posicion, Vector2 tamano, float velocidade_max, World world) {
 		super(posicion, tamano, velocidade_max);
-		velocidade = new Vector2(0, 0);
 		getRectangulo().setSize(tamano.x / 2);
+		tiempo_muerte = 0;
+		vidas_restantes = 3;
+		coins = 0;
 
 		//box2d
 		BodyDef bodyDef = new BodyDef();
@@ -33,7 +38,7 @@ public class PersonajeJugable extends Personaje {
 		fDef.density = 1f;
 		// colisiones box2d
 		fDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
-		fDef.filter.maskBits = B2DVars.BIT_SUELO;
+		fDef.filter.maskBits = B2DVars.BIT_SUELO | B2DVars.BIT_SALIDA | B2DVars.BIT_ENEMIGO | B2DVars.BIT_COIN | B2DVars.BIT_PELIGRO;
 		body.createFixture(fDef).setUserData("player");
 		//foot sensor
 		polygonShape.setAsBox((tamano.x /2)*0.9f,(tamano.y/2) * 0.2f, new Vector2(0,-tamano.y*0.47f),0);
@@ -48,31 +53,36 @@ public class PersonajeJugable extends Personaje {
 	}
 
 	public void inicializarPJ() {
-		setPosicion(100, 20);
-		setVelocidadeX(0);
-		setVelocidadeY(0);
-		setTamano(15, 15);
-		getRectangulo().setSize(tamano.x / 2);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run () {
+				body.setLinearVelocity(0,0);
+				body.setTransform(posicion, 0);
+			}
+		});
+
 	}
 
 	public Body getBody() {
 		return body;
 	}
 
-	public float getVelocidadeX() {
-		return velocidade.x;
+	public void muerte(Mundo mundo){
+		tiempo_muerte = mundo.getCronometro();
+		this.inicializarPJ();
+		this.vidas_restantes--;
 	}
 
-	public float getVelocidadeY() {
-		return velocidade.y;
+	public int getTiempo_muerte() {
+		return tiempo_muerte;
 	}
 
-	public void setVelocidadeX(float x) {
-		velocidade.x = x;
+	public void addCoin(){
+		coins++;
 	}
 
-	public void setVelocidadeY(float y) {
-		velocidade.y = y;
+	public int getCoins(){
+		return coins;
 	}
 
 	@Override
@@ -81,10 +91,5 @@ public class PersonajeJugable extends Personaje {
 		getRectangulo().y = getPosicion().y + getTamano().y / 4;
 	}
 
-
-	@Override
-	public void update(float delta) {
-		setPosicion(getPosicion().x + velocidade.x * delta, getPosicion().y + velocidade.y * delta);
-	}
 }
 

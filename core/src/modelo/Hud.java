@@ -10,11 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
-import javax.xml.ws.Dispatch;
 
 /**
  * Created by dalei on 03/03/2018.
@@ -34,7 +30,7 @@ public class Hud {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int)(width * 0.05f) ;
         BitmapFont bitMapFont = generator.generateFont(parameter); // font size in pixels
-        LabelStyle labelStyle = new LabelStyle(bitMapFont, Color.YELLOW);
+        LabelStyle labelStyle = new LabelStyle(bitMapFont, Color.RED);
         Table tabla = new Table();
         tabla.setFillParent(true);
         tabla.defaults().space(width*0.05f);
