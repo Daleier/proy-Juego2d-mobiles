@@ -1,5 +1,6 @@
 package pantallas;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -10,7 +11,9 @@ import com.badlogic.gdx.Screen;
 
 public class PantallaPuntuacion implements Screen, InputProcessor{
 
-    public PantallaPuntuacion(){
+    private Game juego;
+    public PantallaPuntuacion(Game juego){
+        this.juego = juego;
         Gdx.input.setInputProcessor(this);
     }
 

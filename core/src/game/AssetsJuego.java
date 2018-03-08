@@ -33,6 +33,9 @@ public class AssetsJuego {
 	public static Texture timer;
 	public static Texture health;
 	public static Texture icoCoin;
+	public static Texture play;
+	public static Texture scores;
+	public static Texture exit;
 
 	public static void cargarTexturas(){
 
@@ -93,6 +96,15 @@ public class AssetsJuego {
 
 		imageFileHandle = Gdx.files.internal("iconos/ico_coin.png");
 		icoCoin = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/play.png");
+		play = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/scores.png");
+		scores = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("iconos/exit.png");
+		exit = new Texture(imageFileHandle);
 	}
 
 
