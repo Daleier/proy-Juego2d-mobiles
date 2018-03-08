@@ -40,10 +40,6 @@ public class Controlador {
 		cambioDireccion = false;
     }
 
-    public void controlarPJ(float delta) {
-		//TODO implement
-	}
-
 	public void controlarZombies(){
     	if(cronoCambioDireccion == 0 || cronoCambioDireccion > mundo.getCronometro()+5){
 			for (Zombie zombieM: mundo.getZombiesM()){
@@ -66,7 +62,6 @@ public class Controlador {
         world.step(delta,6,2);
 		mundo.destroyCoins();
 		procesarEntradas();
-		controlarPJ(delta);
 		controlarZombies();
     }
 

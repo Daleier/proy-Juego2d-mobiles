@@ -14,6 +14,8 @@ import javax.rmi.CORBA.Util;
 
 import controlador.Controlador;
 import controlador.ControladorContact;
+import game.Audio;
+import game.HighScores;
 import game.Utiles;
 import modelo.Hud;
 import modelo.Mundo;
@@ -25,6 +27,8 @@ import renderer.Renderer;
 
 public class PantallaJuego implements Screen, InputProcessor{
 
+    public static boolean pause;
+    public static boolean gameOver;
     private Game game;
     private Renderer renderer;
     private Mundo mundo;
@@ -36,6 +40,7 @@ public class PantallaJuego implements Screen, InputProcessor{
         mundo = new Mundo();
         this.renderer = new Renderer(mundo);
         this.controlador = new Controlador(mundo);
+        Audio.musicaJuego.play();
     }
 
     @Override
@@ -93,12 +98,19 @@ public class PantallaJuego implements Screen, InputProcessor{
 
         if(Intersector.overlaps(dedo, new Rectangle(Hud.pause.getX(), heigth-Hud.pause.getY()-Hud.pause.getHeight(),
                 Hud.pause.getWidth(), Hud.pause.getHeight()))){
-            System.out.println("pausa");
-            // TODO pausa
+            if(Mundo.isMusicaOn()){
+                Audio.soundButton.play();
+            }
+            pause = true;
         }else if(Intersector.overlaps(dedo, new Rectangle(Hud.menu.getX(), heigth-Hud.menu.getY()-Hud.menu.getHeight(),
                 Hud.menu.getWidth(), Hud.menu.getHeight()))){
-            System.out.println("menu");
-            // TODO menu
+            if(Mundo.isMusicaOn()){
+                Audio.soundButton.play();
+            }
+            if(Audio.musicaJuego.isPlaying()){
+                Audio.musicaJuego.stop();
+            }
+            game.setScreen(new PantallaInicio(game));
         }else if(Intersector.overlaps(dedo, new Rectangle(Hud.upArrow.getX(), heigth-Hud.upArrow.getY()-Hud.upArrow.getHeight(),
                 Hud.upArrow.getWidth(), Hud.upArrow.getHeight()))){
             System.out.println("arriba");
@@ -140,10 +152,30 @@ public class PantallaJuego implements Screen, InputProcessor{
 
     @Override
     public void render(float delta) {
+        if (Mundo.isMusicaOn()) {
+            Audio.musicaJuego.setVolume(1f);
+        } else {
+            Audio.musicaJuego.setVolume(0f);
+        }
         controlador.update(delta);
         renderer.render(delta);
+        if (pause) {
+            if (Audio.musicaJuego.isPlaying()) {
+                Audio.musicaJuego.pause();
+            }
+            game.setScreen(new PantallaPausa(game, this));
+            return;
+        }
+        if (gameOver) {
+            if (Audio.musicaJuego.isPlaying()) {
+                Audio.musicaJuego.pause();
+            }
+            HighScores.engadirPuntuacion(mundo.getPj().getCoins() * 10 + mundo.getCronometro());
+            System.out.println(mundo.getPj().getCoins() * 10 + mundo.getCronometro());
+            game.setScreen(new PantallaPuntuacion(game));
+            return;
+        }
     }
-
     @Override
     public void resize(int width, int height) {
         Gdx.input.setInputProcessor(this);

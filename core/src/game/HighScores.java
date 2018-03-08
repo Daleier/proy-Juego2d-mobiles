@@ -22,22 +22,11 @@ public class HighScores {
 		int i = 0;
 		while ((i < HighScores.highscores.length) && (!encontrado)) {
 			if (puntuacion > Integer.parseInt(HighScores.highscores[i])) {
-				/*Desplazar los valores inferiores una posición a la derecha
-				 * para no perder los marcadores previos
-				 */
 				encontrado=true;
 				for (int j=(highscores.length-1); j > i; j-- ){
-					System.out.println("Antes");
-					for(String k : highscores)
-						System.out.println(j+": "+k+",");
 					HighScores.highscores[j] = HighScores.highscores[j-1];
-					System.out.println("Despues");
-					for(String k : highscores)
-						System.out.println(j+": "+k+",");
 				}
 				HighScores.highscores[i] =  Integer.toString(puntuacion);
-				for(String k : highscores)
-					System.out.println("Final:"+k+",");
 			} else
 				i++;
 		}

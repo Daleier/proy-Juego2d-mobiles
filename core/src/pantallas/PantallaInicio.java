@@ -19,6 +19,8 @@ import com.badlogic.gdx.math.Vector3;
 
 
 import game.AssetsJuego;
+import game.Audio;
+import modelo.Mundo;
 
 /**
  * Created by dalei on 14/02/2018.
@@ -139,10 +141,16 @@ public class PantallaInicio implements Screen, InputProcessor {
         Circle dedo = new Circle(temp.x,temp.y,2);
         if(Intersector.overlaps(dedo, new Rectangle(width * 0.2f, height * 0.45f,
                 width * 0.1f, height * 0.2f))){ // play
+            if(Mundo.isMusicaOn()){
+                Audio.soundButton.play();
+            }
             dispose();
             juego.setScreen(new PantallaJuego(juego));
         }else if(Intersector.overlaps(dedo, new Rectangle(width * 0.45f, height * 0.45f,
                 width * 0.1f, height * 0.2f))){ // scores
+            if(Mundo.isMusicaOn()){
+                Audio.soundButton.play();
+            }
             dispose();
             juego.setScreen(new PantallaPuntuacion(juego));
         }else if(Intersector.overlaps(dedo, new Rectangle(width * 0.72f, height * 0.45f,

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import controlador.ControladorContact;
+import game.Audio;
 import game.B2DVars;
 
 public class PersonajeJugable extends Personaje {
@@ -67,6 +68,9 @@ public class PersonajeJugable extends Personaje {
 	}
 
 	public void muerte(Mundo mundo){
+		if(Mundo.isMusicaOn()){
+			Audio.soundDead.play();
+		}
 		tiempo_muerte = mundo.getCronometro();
 		this.inicializarPJ();
 		this.vidas_restantes--;

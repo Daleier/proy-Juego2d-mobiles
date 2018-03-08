@@ -8,8 +8,10 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import game.Audio;
 import modelo.Mundo;
 import modelo.Zombie;
+import pantallas.PantallaJuego;
 
 /**
  * Created by dalei on 28/02/2018.
@@ -58,12 +60,15 @@ public class ControladorContact implements ContactListener {
                     }
                 });
             }
+            if(Mundo.isMusicaOn()){
+                Audio.soundCoin.play();
+            }
             mundo.getPj().addCoin();
         }
 
         if((fa.getUserData() != null && fa.getUserData().equals("exit")) || (fb.getUserData() != null && fb.getUserData().equals("exit"))){
             System.out.println("SALIDA");
-            // TODO fin juego
+            PantallaJuego.gameOver = true;
         }
 
 
@@ -74,6 +79,9 @@ public class ControladorContact implements ContactListener {
             }else if((fa.getUserData() != null && fa.getUserData().equals("enemy") && fb.getUserData().equals("player")) ||
                     (fb.getUserData() != null && fb.getUserData().equals("enemy") && fa.getUserData().equals("player"))){
                 System.out.println("DEAD ENEMIGO");
+                if(Mundo.isMusicaOn()){
+                    Audio.soundZombie.play();
+                }
                 mundo.getPj().muerte(mundo);
                 for(Zombie zombieM : mundo.getZombiesM()){
                     zombieM.inicializarZombie();

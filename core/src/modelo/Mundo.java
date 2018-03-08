@@ -1,6 +1,7 @@
 package modelo;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -27,6 +28,7 @@ public class Mundo {
     private Array<Zombie> zombiesM;
     private Array<Zombie> zombiesF;
     private Array<Coin> coins;
+    private static boolean musicaOn;
 
     public Mundo() {
         Utiles.imprimirLog("Mundo","Constructor","Creado objeto mundo");
@@ -36,6 +38,12 @@ public class Mundo {
         contactListener = new ControladorContact(this);
         world.setContactListener(contactListener);
         // carga layer en variable
+        Preferences prefs = Gdx.app.getPreferences("preferencias.dat");
+        if(!prefs.contains("musicaOn")){
+            musicaOn = true;
+        }else{
+            musicaOn = prefs.getBoolean("musicaOn");
+        }
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
         this.pj = new PersonajeJugable(new Vector2(685,240),new Vector2(52,56.75f),300f, world);
@@ -115,6 +123,17 @@ public class Mundo {
 
     public void updateCronometro(float delta) {
         cronometro -= delta;
+    }
+
+    public static boolean isMusicaOn() {
+        return musicaOn;
+    }
+
+    public static void setMusicaOn(boolean musicaOn) {
+        Mundo.musicaOn = musicaOn;
+        Preferences prefs = Gdx.app.getPreferences("preferencias.dat");
+        prefs.putBoolean("musicaOn", musicaOn);
+        prefs.flush();
     }
 
     public World getWorld(){
