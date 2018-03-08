@@ -19,16 +19,22 @@ public class HighScores {
 
 	public static void engadirPuntuacion(int puntuacion) {
 		boolean encontrado = false;
-		int i = 0;
-		while ((i < HighScores.highscores.length) && (!encontrado)) {
-			if (puntuacion > Integer.parseInt(HighScores.highscores[i])) {
-				encontrado=true;
-				for (int j=(highscores.length-1); j > i; j-- ){
-					HighScores.highscores[j] = HighScores.highscores[j-1];
-				}
-				HighScores.highscores[i] =  Integer.toString(puntuacion);
-			} else
-				i++;
+		int temporal;
+		if (puntuacion > Integer.parseInt(highscores[0])) {
+			temporal = Integer.parseInt(highscores[0]);
+			highscores[0] = Integer.toString(puntuacion);
+			puntuacion = temporal;
+			encontrado = true;
+		}
+		if (puntuacion > Integer.parseInt(highscores[1])) {
+			temporal = Integer.parseInt(highscores[1]);
+			highscores[1] = Integer.toString(puntuacion);
+			puntuacion = temporal;
+			encontrado = true;
+		}
+		if (puntuacion > Integer.parseInt(highscores[2])) {
+			highscores[2] = Integer.toString(puntuacion);
+			encontrado = true;
 		}
 		if (encontrado)
 			HighScores.save();
