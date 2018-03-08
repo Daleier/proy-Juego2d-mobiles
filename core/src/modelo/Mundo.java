@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import javax.rmi.CORBA.Util;
 
@@ -27,7 +28,9 @@ public class Mundo {
     private float cronometro;
     private World world;
 	private ControladorContact contactListener;
-    private static PersonajeJugable pj;
+    private PersonajeJugable pj;
+    private Array<Zombie> zombiesM;
+    private Array<Zombie> zombiesF;
 
     public Mundo() {
         Utiles.imprimirLog("Mundo","Constructor","Creado objeto mundo");
@@ -39,13 +42,32 @@ public class Mundo {
         // carga layer en variable
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
-        this.pj = new PersonajeJugable(new Vector2(700,310),new Vector2(52,56.75f),300f, world);
+        this.pj = new PersonajeJugable(new Vector2(685,240),new Vector2(52,56.75f),300f, world);
+        zombiesF = new Array<Zombie>();
+        zombiesM = new Array<Zombie>();
+        addZombies();
     }
 
+    private void addZombies() {
+        zombiesM.add(new Zombie(new Vector2(5250,630),new Vector2(52,58f),75, world));
+        zombiesM.add(new Zombie(new Vector2(5670,630),new Vector2(52,58f),75, world));
+
+        zombiesF.add(new Zombie(new Vector2(1000,160),new Vector2(52,58f),75f, world));
+        zombiesF.add(new Zombie(new Vector2(4980,630),new Vector2(52,58f),75f, world));
+        zombiesF.add(new Zombie(new Vector2(5500,630),new Vector2(52,58f),-75f, world));
+    }
 
     public PersonajeJugable getPj(){
     	return pj;
 	}
+
+	public Array<Zombie> getZombiesM() {
+        return zombiesM;
+    }
+
+    public Array<Zombie> getZombiesF() {
+        return zombiesF;
+    }
 
     public int getCronometro() {
         return (int)cronometro;

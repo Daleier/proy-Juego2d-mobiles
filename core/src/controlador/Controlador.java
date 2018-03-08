@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 import game.Utiles;
 import modelo.Mundo;
-import modelo.Personaje;
 import modelo.PersonajeJugable;
+import modelo.Zombie;
 
 /**
  * Created by dalei on 14/02/2018.
@@ -18,6 +18,8 @@ public class Controlador {
     private Mundo mundo;
 	private PersonajeJugable pj;
 	private World world;
+	private static float cronoCambioDireccion;
+	private boolean cambioDireccion;
 
 	public enum Keys {
 		IZQUIERDA, DERECHA,ARRIBA
@@ -34,10 +36,29 @@ public class Controlador {
         this.mundo=mundo;
         this.pj = mundo.getPj();
 		world = this.mundo.getWorld();
+		cronoCambioDireccion = 0;
+		cambioDireccion = false;
     }
 
     public void controlarPJ(float delta) {
 		//TODO implement
+	}
+
+	public void controlarZombies(){
+    	if(cronoCambioDireccion == 0 || cronoCambioDireccion > mundo.getCronometro()+5){
+			for (Zombie zombieM: mundo.getZombiesM()){
+    			zombieM.cambiarDireccion(cambioDireccion);
+			}
+			for (Zombie zombieF : mundo.getZombiesF()){
+    			zombieF.cambiarDireccion(cambioDireccion);
+			}
+			cronoCambioDireccion = mundo.getCronometro();
+			cambioDireccion = !cambioDireccion;
+    	}
+	}
+
+	public static void reinicializarCronometroCambioDireccion(){
+		cronoCambioDireccion = 0;
 	}
 
     public void update(float delta){
@@ -45,6 +66,7 @@ public class Controlador {
         world.step(delta,6,2);
 		procesarEntradas();
 		controlarPJ(delta);
+		controlarZombies();
     }
 
 	/**

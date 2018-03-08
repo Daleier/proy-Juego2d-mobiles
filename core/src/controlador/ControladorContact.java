@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import modelo.Mundo;
+import modelo.Zombie;
 
 /**
  * Created by dalei on 28/02/2018.
@@ -49,9 +50,17 @@ public class ControladorContact implements ContactListener {
             if((fa.getUserData() != null && fa.getUserData().equals("danger-zone")) || (fb.getUserData() != null && fb.getUserData().equals("danger-zone"))){
                 System.out.println("DEAD ZONA PELIGROSA");
                 mundo.getPj().muerte(mundo);
-            }else if((fa.getUserData() != null && fa.getUserData().equals("enemy")) || (fb.getUserData() != null && fb.getUserData().equals("enemy"))){
+            }else if((fa.getUserData() != null && fa.getUserData().equals("enemy") && fb.getUserData().equals("player")) ||
+                    (fb.getUserData() != null && fb.getUserData().equals("enemy") && fa.getUserData().equals("player"))){
                 System.out.println("DEAD ENEMIGO");
                 mundo.getPj().muerte(mundo);
+                for(Zombie zombieM : mundo.getZombiesM()){
+                    zombieM.inicializarZombie();
+                }
+                for(Zombie zombieF : mundo.getZombiesF()){
+                    zombieF.inicializarZombie();
+                }
+                Controlador.reinicializarCronometroCambioDireccion();
             }
         }
     }

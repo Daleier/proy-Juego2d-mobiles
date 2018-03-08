@@ -54,11 +54,11 @@ public class AssetsJuego {
 
 		atlas = new TextureAtlas("personajes/zombies/zombiem.txt");
 		Array<Sprite> zombiem = atlas.createSprites();
-		zombieMale = new Animation(0.5f, zombiem);
+		zombieMale = new Animation(0.3f, zombiem);
 
 		atlas = new TextureAtlas("personajes/zombies/zombief.txt");
 		Array<Sprite> zombief = atlas.createSprites();
-		zombieFemale = new Animation(0.5f, zombief);
+		zombieFemale = new Animation(0.3f, zombief);
 
 		atlas = new TextureAtlas("personajes/coins/coin.txt");
 		Array<Sprite> coins = atlas.createSprites();

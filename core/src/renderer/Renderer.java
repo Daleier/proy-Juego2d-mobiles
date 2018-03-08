@@ -29,6 +29,7 @@ import game.Utiles;
 import modelo.Hud;
 import modelo.Mundo;
 import modelo.PersonajeJugable;
+import modelo.Zombie;
 
 /**
  * Created by dalei on 14/02/2018.
@@ -40,10 +41,9 @@ public class Renderer implements InputProcessor{
     private SpriteBatch spriteBatch;
     private ShapeRenderer shapeRenderer;
     private OrthographicCamera camera2d;
-    private OrthographicCamera cameraHud;
     private final float WIDTH;
     private final float HEIGHT;
-    private boolean debug = false;
+    private boolean debug = true;
     private float aniCrono = 0;
     // box2d
     private World world;
@@ -62,7 +62,6 @@ public class Renderer implements InputProcessor{
         spriteBatch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         camera2d = new OrthographicCamera();
-        cameraHud = new OrthographicCamera();
         WIDTH = mundo.ANCHO_MUNDO;
         HEIGHT = mundo.ALTO_MUNDO;
         // box2d
@@ -98,7 +97,7 @@ public class Renderer implements InputProcessor{
             shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
             fdef.shape = shape;
             fdef.filter.categoryBits = B2DVars.BIT_SUELO;
-            fdef.filter.maskBits = B2DVars.BIT_JUGADOR;
+            fdef.filter.maskBits = B2DVars.BIT_JUGADOR | B2DVars.BIT_ENEMIGO;
             fdef.isSensor = false;
             body.createFixture(fdef).setUserData("platform");
         }
@@ -110,7 +109,7 @@ public class Renderer implements InputProcessor{
             shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
             fdef.shape = shape;
             fdef.filter.categoryBits = B2DVars.BIT_PELIGRO;
-            fdef.filter.maskBits = B2DVars.BIT_JUGADOR;
+            fdef.filter.maskBits = B2DVars.BIT_JUGADOR | B2DVars.BIT_ENEMIGO;
             fdef.isSensor = false;
             body.createFixture(fdef).setUserData("danger-zone");
         }
@@ -140,6 +139,7 @@ public class Renderer implements InputProcessor{
         spriteBatch.setProjectionMatrix(camera2d.combined);
         spriteBatch.begin();
         dibujarPj(aniCrono);
+        dibujarZombies(aniCrono);
         spriteBatch.end();
         hud.update();
         hud.stage.draw();
@@ -164,6 +164,19 @@ public class Renderer implements InputProcessor{
                 pj.getBody().getPosition().x - pj.getTamano().x/2, pj.getBody().getPosition().y - pj.getTamano().y/2,
                 pj.getTamano().x, pj.getTamano().y);
 
+    }
+
+    private void dibujarZombies(float crono){
+        for(Zombie zombie : mundo.getZombiesF()){
+            spriteBatch.draw((Sprite) AssetsJuego.zombieFemale.getKeyFrame(crono, true),
+                    zombie.getBody().getPosition().x - zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
+                    zombie.getTamano().x, zombie.getTamano().y);
+        }
+        for(Zombie zombie : mundo.getZombiesM()){
+            spriteBatch.draw((Sprite) AssetsJuego.zombieMale.getKeyFrame(crono, true),
+                    zombie.getBody().getPosition().x - zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
+                    zombie.getTamano().x, zombie.getTamano().y);
+        }
     }
 
     private void debug(){
