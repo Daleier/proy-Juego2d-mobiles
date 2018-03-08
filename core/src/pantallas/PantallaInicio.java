@@ -53,6 +53,7 @@ public class PantallaInicio implements Screen, InputProcessor {
         parameter.size = (int)(width * 0.04f) ;
         bitMapFont = generator.generateFont(parameter);
         bitMapFont.setColor(Color.RED);
+        generator.dispose();
 
     }
 
