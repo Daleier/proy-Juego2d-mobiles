@@ -1,20 +1,15 @@
 package modelo;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-import javax.rmi.CORBA.Util;
+
+import java.util.Iterator;
 
 import controlador.ControladorContact;
-import game.B2DVars;
 import game.Utiles;
 
 /**
@@ -31,6 +26,7 @@ public class Mundo {
     private PersonajeJugable pj;
     private Array<Zombie> zombiesM;
     private Array<Zombie> zombiesF;
+    private Array<Coin> coins;
 
     public Mundo() {
         Utiles.imprimirLog("Mundo","Constructor","Creado objeto mundo");
@@ -45,7 +41,9 @@ public class Mundo {
         this.pj = new PersonajeJugable(new Vector2(685,240),new Vector2(52,56.75f),300f, world);
         zombiesF = new Array<Zombie>();
         zombiesM = new Array<Zombie>();
+        coins = new Array<Coin>();
         addZombies();
+        addCoins();
     }
 
     private void addZombies() {
@@ -55,6 +53,41 @@ public class Mundo {
         zombiesF.add(new Zombie(new Vector2(1000,160),new Vector2(52,58f),75f, world));
         zombiesF.add(new Zombie(new Vector2(4980,630),new Vector2(52,58f),75f, world));
         zombiesF.add(new Zombie(new Vector2(5500,630),new Vector2(52,58f),-75f, world));
+    }
+
+    public void addCoins(){
+        coins.add(new Coin(new Vector2(2065,315),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(2485,525),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(1715,735),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(2905,805),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(3395,525),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(3395,525),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(4095,735),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(4865,595),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(5565,595),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(5915,595),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(5215,1575),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(5285,1575),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(5355,1575),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(5425,1575),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(5495,1575),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(6825,805),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(7665,805),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(7385,1505),new Vector2(32f,32f), world));
+        coins.add(new Coin(new Vector2(8015,1295),new Vector2(32f,32f), world));
+    }
+
+    public void destroyCoins(){
+        Iterator<Coin> c = coins.iterator();
+        while(c.hasNext()) { //elimina las imagenes que no son de titular
+            Coin coin = c.next();
+            if(coin.getBody().getUserData() != null){
+                if (coin.getBody().getUserData().equals("destroy")) {
+                    c.remove();
+                }
+            }
+
+        }
     }
 
     public PersonajeJugable getPj(){
@@ -69,6 +102,9 @@ public class Mundo {
         return zombiesF;
     }
 
+    public Array<Coin> getCoins(){
+        return coins;
+    }
     public int getCronometro() {
         return (int)cronometro;
     }

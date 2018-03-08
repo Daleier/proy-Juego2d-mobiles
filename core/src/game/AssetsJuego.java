@@ -62,7 +62,7 @@ public class AssetsJuego {
 
 		atlas = new TextureAtlas("personajes/coins/coin.txt");
 		Array<Sprite> coins = atlas.createSprites();
-		coin = new Animation(0.5f, coins);
+		coin = new Animation(0.15f, coins);
 
 		FileHandle imageFileHandle = Gdx.files.internal("iconos/pause.png");
 		pause = new Texture(imageFileHandle);

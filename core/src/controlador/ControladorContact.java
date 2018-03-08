@@ -1,6 +1,7 @@
 package controlador;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -37,6 +38,26 @@ public class ControladorContact implements ContactListener {
 
         if((fa.getUserData() != null && fa.getUserData().equals("coin")) || (fb.getUserData() != null && fb.getUserData().equals("coin"))){
             System.out.println("COIN");
+            final Fixture f;
+            if(fa.getUserData().equals("coin")){
+                f = fa;
+                fa.getBody().setUserData("destroy");
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run () {
+                        mundo.getWorld().destroyBody(f.getBody());
+                    }
+                });
+            }else if(fb.getUserData().equals("coin")){
+                f = fb;
+                fb.getBody().setUserData("destroy");
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run () {
+                        mundo.getWorld().destroyBody(f.getBody());
+                    }
+                });
+            }
             mundo.getPj().addCoin();
         }
 

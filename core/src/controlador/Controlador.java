@@ -64,6 +64,7 @@ public class Controlador {
     public void update(float delta){
         mundo.updateCronometro(delta);
         world.step(delta,6,2);
+		mundo.destroyCoins();
 		procesarEntradas();
 		controlarPJ(delta);
 		controlarZombies();

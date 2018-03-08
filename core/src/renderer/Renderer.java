@@ -26,6 +26,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import game.AssetsJuego;
 import game.B2DVars;
 import game.Utiles;
+import modelo.Coin;
 import modelo.Hud;
 import modelo.Mundo;
 import modelo.PersonajeJugable;
@@ -140,6 +141,7 @@ public class Renderer implements InputProcessor{
         spriteBatch.begin();
         dibujarPj(aniCrono);
         dibujarZombies(aniCrono);
+        dibujarCoins(aniCrono);
         spriteBatch.end();
         hud.update();
         hud.stage.draw();
@@ -160,22 +162,49 @@ public class Renderer implements InputProcessor{
         }else{ //idle
             sprite = (Sprite) AssetsJuego.pjIdle.getKeyFrame(crono,true); // idle
         }
-        spriteBatch.draw(sprite,
-                pj.getBody().getPosition().x - pj.getTamano().x/2, pj.getBody().getPosition().y - pj.getTamano().y/2,
-                pj.getTamano().x, pj.getTamano().y);
+        if(pj.getBody().getLinearVelocity().x < 0){ // mira izquierda
+            spriteBatch.draw(sprite,
+                    pj.getBody().getPosition().x + pj.getTamano().x/2, pj.getBody().getPosition().y - pj.getTamano().y/2,
+                    -pj.getTamano().x, pj.getTamano().y);
+        }else{ // mira derecha
+            spriteBatch.draw(sprite,
+                    pj.getBody().getPosition().x - pj.getTamano().x/2, pj.getBody().getPosition().y - pj.getTamano().y/2,
+                    pj.getTamano().x, pj.getTamano().y);
+        }
+
 
     }
 
     private void dibujarZombies(float crono){
         for(Zombie zombie : mundo.getZombiesF()){
-            spriteBatch.draw((Sprite) AssetsJuego.zombieFemale.getKeyFrame(crono, true),
-                    zombie.getBody().getPosition().x - zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
-                    zombie.getTamano().x, zombie.getTamano().y);
+            if(zombie.getBody().getLinearVelocity().x < 0){
+                spriteBatch.draw((Sprite) AssetsJuego.zombieFemale.getKeyFrame(crono, true),
+                        zombie.getBody().getPosition().x + zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
+                        -zombie.getTamano().x, zombie.getTamano().y);
+            }else{
+                spriteBatch.draw((Sprite) AssetsJuego.zombieFemale.getKeyFrame(crono, true),
+                        zombie.getBody().getPosition().x - zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
+                        zombie.getTamano().x, zombie.getTamano().y);
+            }
         }
         for(Zombie zombie : mundo.getZombiesM()){
-            spriteBatch.draw((Sprite) AssetsJuego.zombieMale.getKeyFrame(crono, true),
-                    zombie.getBody().getPosition().x - zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
-                    zombie.getTamano().x, zombie.getTamano().y);
+            if(zombie.getBody().getLinearVelocity().x < 0){
+                spriteBatch.draw((Sprite) AssetsJuego.zombieMale.getKeyFrame(crono, true),
+                        zombie.getBody().getPosition().x + zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
+                        -zombie.getTamano().x, zombie.getTamano().y);
+            }else{
+                spriteBatch.draw((Sprite) AssetsJuego.zombieMale.getKeyFrame(crono, true),
+                        zombie.getBody().getPosition().x - zombie.getTamano().x/2, zombie.getBody().getPosition().y - zombie.getTamano().y/2,
+                        zombie.getTamano().x, zombie.getTamano().y);
+            }
+        }
+    }
+
+    private void dibujarCoins(float crono){
+        for (Coin coin : mundo.getCoins()){
+            spriteBatch.draw((Sprite) AssetsJuego.coin.getKeyFrame(crono, true),
+                    coin.getBody().getPosition().x - coin.getTamano().x/2, coin.getBody().getPosition().y - coin.getTamano().y/2,
+                    coin.getTamano().x, coin.getTamano().y);
         }
     }
 

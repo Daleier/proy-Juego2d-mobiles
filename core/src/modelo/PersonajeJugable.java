@@ -38,7 +38,7 @@ public class PersonajeJugable extends Personaje {
 		fDef.density = 1f;
 		// colisiones box2d
 		fDef.filter.categoryBits = B2DVars.BIT_JUGADOR;
-		fDef.filter.maskBits = B2DVars.BIT_SUELO | B2DVars.BIT_SALIDA | B2DVars.BIT_ENEMIGO | B2DVars.BIT_COIN | B2DVars.BIT_PELIGRO;
+		fDef.filter.maskBits = B2DVars.BIT_PELIGRO | B2DVars.BIT_COIN |B2DVars.BIT_SUELO | B2DVars.BIT_ENEMIGO | B2DVars.BIT_SALIDA;
 		body.createFixture(fDef).setUserData("player");
 		//foot sensor
 		polygonShape.setAsBox((tamano.x /2)*0.9f,(tamano.y/2) * 0.2f, new Vector2(0,-tamano.y*0.47f),0);
