@@ -76,12 +76,14 @@ public class ControladorContact implements ContactListener {
             if((fa.getUserData() != null && fa.getUserData().equals("danger-zone")) || (fb.getUserData() != null && fb.getUserData().equals("danger-zone"))){
                 System.out.println("DEAD ZONA PELIGROSA");
                 mundo.getPj().muerte(mundo);
+                mundo.getGhost().inicializarGhost();
             }else if((fa.getUserData() != null && fa.getUserData().equals("enemy") && fb.getUserData().equals("player")) ||
                     (fb.getUserData() != null && fb.getUserData().equals("enemy") && fa.getUserData().equals("player"))){
                 System.out.println("DEAD ENEMIGO");
                 if(Mundo.isMusicaOn()){
                     Audio.soundZombie.play();
                 }
+                mundo.getGhost().inicializarGhost();
                 mundo.getPj().muerte(mundo);
                 for(Zombie zombieM : mundo.getZombiesM()){
                     zombieM.inicializarZombie();

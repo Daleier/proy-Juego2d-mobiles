@@ -45,7 +45,7 @@ public class Renderer implements InputProcessor{
     private OrthographicCamera camera2d;
     private final float WIDTH;
     private final float HEIGHT;
-    private boolean debug = true;
+    private boolean debug = false;
     private float aniCrono = 0;
     // box2d
     private World world;

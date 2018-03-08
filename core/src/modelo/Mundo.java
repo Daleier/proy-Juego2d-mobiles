@@ -48,7 +48,7 @@ public class Mundo {
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
         this.pj = new PersonajeJugable(new Vector2(685,240),new Vector2(52,56.75f),300f, world);
-        this.ghost = new Ghost(new Vector2(105,1400), new Vector2(75,68.75f),100f);
+        this.ghost = new Ghost(new Vector2(105,1400), new Vector2(75,68.75f),50f);
         zombiesF = new Array<Zombie>();
         zombiesM = new Array<Zombie>();
         coins = new Array<Coin>();
