@@ -28,6 +28,7 @@ public class Mundo {
     private Array<Zombie> zombiesM;
     private Array<Zombie> zombiesF;
     private Array<Coin> coins;
+    private Ghost ghost;
     private static boolean musicaOn;
 
     public Mundo() {
@@ -47,6 +48,7 @@ public class Mundo {
 
         cronometro = TEMPO_INICIAL_CRONOMETRO;
         this.pj = new PersonajeJugable(new Vector2(685,240),new Vector2(52,56.75f),300f, world);
+        this.ghost = new Ghost(new Vector2(105,1400), new Vector2(75,68.75f),100f);
         zombiesF = new Array<Zombie>();
         zombiesM = new Array<Zombie>();
         coins = new Array<Coin>();
@@ -113,8 +115,13 @@ public class Mundo {
     public Array<Coin> getCoins(){
         return coins;
     }
+
     public int getCronometro() {
         return (int)cronometro;
+    }
+
+    public Ghost getGhost() {
+        return ghost;
     }
 
     public void setCronometro(float cronometro) {

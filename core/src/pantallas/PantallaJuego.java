@@ -175,6 +175,13 @@ public class PantallaJuego implements Screen, InputProcessor{
             game.setScreen(new PantallaPuntuacion(game));
             return;
         }
+        if (mundo.getPj().getVidas_restantes() <= 0 || mundo.getCronometro() <= 0){
+            if (Audio.musicaJuego.isPlaying()) {
+                Audio.musicaJuego.pause();
+            }
+            game.setScreen(new PantallaPuntuacion(game));
+            return;
+        }
     }
     @Override
     public void resize(int width, int height) {

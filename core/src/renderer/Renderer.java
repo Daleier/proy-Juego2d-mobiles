@@ -27,6 +27,7 @@ import game.AssetsJuego;
 import game.B2DVars;
 import game.Utiles;
 import modelo.Coin;
+import modelo.Ghost;
 import modelo.Hud;
 import modelo.Mundo;
 import modelo.PersonajeJugable;
@@ -142,6 +143,7 @@ public class Renderer implements InputProcessor{
         dibujarPj(aniCrono);
         dibujarZombies(aniCrono);
         dibujarCoins(aniCrono);
+        dibujarGhost();
         spriteBatch.end();
         hud.update();
         hud.stage.draw();
@@ -206,6 +208,18 @@ public class Renderer implements InputProcessor{
                     coin.getBody().getPosition().x - coin.getTamano().x/2, coin.getBody().getPosition().y - coin.getTamano().y/2,
                     coin.getTamano().x, coin.getTamano().y);
         }
+    }
+
+    private void dibujarGhost() {
+        Ghost ghost = mundo.getGhost();
+        if(ghost.mirandoFrente){
+            spriteBatch.draw(AssetsJuego.ghost, ghost.getPosicionX(), ghost.getPosicionY(),
+                    ghost.getTamano().x, ghost.getTamano().y);
+        }else{
+            spriteBatch.draw(AssetsJuego.ghost, ghost.getPosicionX(), ghost.getPosicionY(),
+                    -ghost.getTamano().x, ghost.getTamano().y);
+        }
+
     }
 
     private void debug(){

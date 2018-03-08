@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
 
+import javax.xml.soap.Text;
+
 
 /**
  * Created by dam203 on 20/02/2018.
@@ -22,6 +24,7 @@ public class AssetsJuego {
 	public static Animation pjRunning;
 	public static Animation zombieMale;
 	public static Animation zombieFemale;
+	public static Texture ghost;
 	public static Animation coin;
 	public static Texture pause;
 	public static Texture menu;
@@ -105,6 +108,9 @@ public class AssetsJuego {
 
 		imageFileHandle = Gdx.files.internal("iconos/exit.png");
 		exit = new Texture(imageFileHandle);
+
+		imageFileHandle = Gdx.files.internal("personajes/rapunzel.png");
+		ghost = new Texture(imageFileHandle);
 	}
 
 

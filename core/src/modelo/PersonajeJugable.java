@@ -23,7 +23,7 @@ public class PersonajeJugable extends Personaje {
 		super(posicion, tamano, velocidade_max);
 		getRectangulo().setSize(tamano.x / 2);
 		tiempo_muerte = 0;
-		vidas_restantes = 3;
+		vidas_restantes = 4;
 		coins = 0;
 
 		//box2d
